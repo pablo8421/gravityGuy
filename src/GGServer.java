@@ -1,6 +1,12 @@
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -23,6 +29,16 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
      */
     
     public boolean running;
+    
+    private static int puerto = 2222;
+    
+    private int userQuantity = 2;
+    private static Thread threads[];
+    private static UserConnection userManager[];
+    private Thread serverThread;
+    private ServerConnection serverRun;
+    
+    
     
     public GGServer()
     {
@@ -50,6 +66,21 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             }
         });
         
+        userManager = new UserConnection[userQuantity];
+        for(int i = 0; i < userQuantity; i++)
+        {
+            userManager[i] = new UserConnection();
+        }
+        
+        threads = new Thread[userQuantity];
+        for(int i = 0; i < userQuantity; i++)
+        {
+            threads[i] = new Thread(userManager[i]);
+        }
+        
+        serverRun = new ServerConnection();
+        serverThread = new Thread(serverRun);
+        serverThread.start();
     }
 
     /**
@@ -118,5 +149,85 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
     public void run()
     {
         this.setVisible(true);
+    }
+
+    private static class UserConnection implements Runnable {
+
+        public Socket socket;
+        public BufferedReader in;
+        public DataOutputStream out;
+        
+        public int ident;
+        public boolean initGame;
+        
+        public UserConnection()
+        {
+        }
+
+        public void addSocket(Socket socket) throws IOException
+        {
+            this.socket = socket;
+            //Obtener buffers
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new DataOutputStream(socket.getOutputStream());
+            
+        }
+        
+        @Override
+        public void run()
+        {
+            try
+            {
+                boolean keepGoing = true;
+                
+                String request = in.readLine();
+                
+                if(request.equals("HELLO"))
+                {
+                    out.writeBytes("OK player "+ident);
+                }
+                
+                while(keepGoing)
+                {
+                    
+                }
+            } catch (IOException ex)
+            {
+                Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private static class ServerConnection implements Runnable{
+
+        public ServerConnection()
+        {
+        }
+
+        @Override
+        public void run()
+        {
+            int quantity = 0;
+            try
+            {
+                //Obtener puerto de entrada
+                ServerSocket welcomeSocket = new ServerSocket(puerto);                
+                while (quantity != 2)
+                {
+                    //Inizializa el socket para aceptar la conexion
+                    Socket connectionSocket = welcomeSocket.accept();
+                    
+                    userManager[quantity].addSocket(connectionSocket);
+                    userManager[quantity].ident = quantity;
+                    threads[quantity].start();
+                    
+                    quantity++;
+                    
+                }
+            } catch (IOException ex)
+            {
+                Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
