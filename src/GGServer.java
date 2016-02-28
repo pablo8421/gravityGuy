@@ -37,7 +37,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
     
     private static int puerto = 6321;
     
-    private static int userQuantity = 2;
+    private static int userQuantity = 1;
     
     private static Socket sockets[];
     private static BufferedReader in[];
@@ -185,7 +185,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             {
                 //Obtener puerto de entrada
                 ServerSocket welcomeSocket = new ServerSocket(puerto);                
-                while (quantity != 2)
+                while (quantity != userQuantity)
                 {
                     //Inizializa el socket para aceptar la conexion
                     Socket connectionSocket = welcomeSocket.accept();
