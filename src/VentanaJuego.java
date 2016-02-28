@@ -2,6 +2,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,10 +27,16 @@ public class VentanaJuego extends java.awt.Frame {
     ArrayList<Cuadrado> cuadrados2;
     Cuadrado jugador1=new Cuadrado(320, 320, 100, 100);;
     Cuadrado jugador2;
+    Socket pingSocket;
+    PrintWriter out;
+    BufferedReader in;
     
 
-    public VentanaJuego() {
+    public VentanaJuego(Socket pingSocket, PrintWriter out, BufferedReader in) {
         initComponents();
+        this.pingSocket = pingSocket;
+        this.out = out;
+        this.in = in;
     }
 
     /**

@@ -173,7 +173,7 @@ public class Front extends javax.swing.JFrame {
                 while (!in.ready()){}
                 resultado = in.readLine();
                 if (resultado.equals("START GAME")){
-                    VentanaJuego vj = new VentanaJuego();
+                    VentanaJuego vj = new VentanaJuego(pingSocket, out, in);
                     vj.setVisible(true);
                 }
             } catch (IOException ex) {
@@ -184,13 +184,13 @@ public class Front extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, resultado);
         }
         
-        out.close();
+        /*out.close();
         try {
             in.close();
             pingSocket.close();
         } catch (IOException ex) {
             Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
         
     }//GEN-LAST:event_connectButtonActionPerformed
