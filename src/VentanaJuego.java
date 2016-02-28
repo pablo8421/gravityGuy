@@ -38,6 +38,7 @@ public class VentanaJuego extends java.awt.Frame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setMaximumSize(new java.awt.Dimension(640, 640));
         setMinimumSize(new java.awt.Dimension(640, 640));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
