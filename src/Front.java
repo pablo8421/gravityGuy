@@ -155,7 +155,7 @@ public class Front extends javax.swing.JFrame {
             Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if (resultado.equals("OK")){
+        if (resultado.contains("OK")){
             JOptionPane.showMessageDialog(null, "OK");
             
             try {
@@ -165,6 +165,7 @@ public class Front extends javax.swing.JFrame {
                 resultado = in.readLine();
                 if (resultado.equals("START GAME")){
                     //Instanciar a Kevin
+                    JOptionPane.showMessageDialog(null, "Si se pudo conectar al servidor de Gravity Guy");
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
