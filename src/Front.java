@@ -134,20 +134,20 @@ public class Front extends javax.swing.JFrame {
         BufferedReader in = null;
         
         try {
-            pingSocket = new Socket(adressText.getText(), 2222);
+            pingSocket = new Socket(adressText.getText(), 2525);
             out = new PrintWriter(pingSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(pingSocket.getInputStream()));
         } catch (IOException e) {
-            System.out.println("Hay un problema en redireccionar correo.");
+            JOptionPane.showMessageDialog(null, "No se pudo conectar al servidor de Gravity Guy");
         }
-        out.write("HELLO");
-        try {
-            while (!in.ready()){
-                
-            }
-        } catch (IOException ex) {
+        out.write("HELLO\r\n");
+        //try {
+            /*while (!in.ready()){
+                System.out.println("oli");
+            }*/
+        /*} catch (IOException ex) {
             Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         String resultado = "";        
         try {
             resultado = in.readLine();
