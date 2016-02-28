@@ -9,11 +9,11 @@
  * @author Kevin Avendaño
  */
 public class Cuadrado {
-    public int x0,y0,x1,y1;
-    public Cuadrado(int x0, int y0, int x1, int y1){
+    public int x0,y0,width,height;
+    public Cuadrado(int x0, int y0, int width, int height){
         this.x0 = x0;
         this.y0 = y0;
-        this.x1 = x1;
-        this.y1 = y1;
+        this.width = width;
+        this.height = height;
     }
 }
