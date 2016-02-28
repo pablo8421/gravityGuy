@@ -15,20 +15,19 @@ import java.util.logging.Logger;
  *
  * @author Kevin Avendaño
  */
-public class Prueba extends java.awt.Frame {
+public class VentanaJuego extends java.awt.Frame {
 
     /**
      * Creates new form Prueba
      */
     ArrayList<Cuadrado> cuadrados;
     ArrayList<Cuadrado> cuadrados2;
-    Cuadrado jugador1;
+    Cuadrado jugador1=new Cuadrado(320, 320, 100, 100);;
     Cuadrado jugador2;
     
 
-    public Prueba() {
+    public VentanaJuego() {
         initComponents();
-        jugador1 = new Cuadrado(320, 320, 100, 100);
     }
 
     /**
@@ -39,7 +38,6 @@ public class Prueba extends java.awt.Frame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setMaximumSize(new java.awt.Dimension(640, 640));
         setMinimumSize(new java.awt.Dimension(640, 640));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -61,13 +59,6 @@ public class Prueba extends java.awt.Frame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Prueba().setVisible(true);
-            }
-        });
-    }
 
     public void paint(Graphics g) {
     //Here is how we used to draw a square with width
@@ -82,14 +73,14 @@ public class Prueba extends java.awt.Frame {
         int x = 0;
 
         //PARA ARRIBA
-        /*while (x < this.getWidth()) {
+        while (x < this.getWidth()) {
             randomx = (int) (Math.random() * (150 - 0)) + 10;
             randomy = (int) (Math.random() * (150 - 0)) + 10;
             x = xAnterior;
             cuadrado = new Cuadrado(x, 0, randomx, randomy);
             cuadrados.add(cuadrado);
             xAnterior = xAnterior + randomx;
-        }*/
+        }
 
         //PARA ABAJO, Para abajo Para abajo
         x = 0;
@@ -167,7 +158,7 @@ public class Prueba extends java.awt.Frame {
             try {
                 Thread.sleep(50);
             } catch (InterruptedException ex) {
-                Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     } 

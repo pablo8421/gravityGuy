@@ -164,8 +164,8 @@ public class Front extends javax.swing.JFrame {
                 }
                 resultado = in.readLine();
                 if (resultado.equals("START GAME")){
-                    //Instanciar a Kevin
-                    JOptionPane.showMessageDialog(null, "Si se pudo conectar al servidor de Gravity Guy");
+                    VentanaJuego vj = new VentanaJuego();
+                    vj.setVisible(true);
                 }
             } catch (IOException ex) {
                 Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
