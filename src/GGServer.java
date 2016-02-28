@@ -382,7 +382,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 Thread.sleep(50);
             } catch (InterruptedException ex)
             {
-                Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
