@@ -40,15 +40,16 @@ public class VentanaJuego extends java.awt.Frame {
         this.pingSocket = pingSocket;
         this.out = out;
         this.in = in;
+        this.addKeyListener(new myKeyListener());
+        this.setFocusable(true);
+        this.setFocusTraversalKeysEnabled(false);
         while (!in.ready()){}
         String br = null;
         while((br = in.readLine())!= null){
             deSerializePiece(br);
         }
         
-        this.addKeyListener(new myKeyListener());
-        this.setFocusable(true);
-        this.setFocusTraversalKeysEnabled(false);
+
     }
 
     /**
