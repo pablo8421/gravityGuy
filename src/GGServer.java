@@ -371,9 +371,9 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             //g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
             //AQUI SE LLAMA LA GRAVEDAD
 
-            PlayerManage playerm1 = new PlayerManage(jugador1, cuadradosTop, cuadroActual);
-            Thread infThread = new Thread(playerm1);
-            infThread.start();
+            //PlayerManage playerm1 = new PlayerManage(jugador1, cuadradosTop, cuadroActual);
+            //Thread infThread = new Thread(playerm1);
+            //infThread.start();
 
             //g.setColor(Color.black);
             //g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
