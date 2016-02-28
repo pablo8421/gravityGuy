@@ -44,6 +44,7 @@ public class Front extends javax.swing.JFrame {
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        jLabel1.setVisible(false);
     }
 
     /**
@@ -58,6 +59,7 @@ public class Front extends javax.swing.JFrame {
         connectButton = new javax.swing.JButton();
         serverButton = new javax.swing.JButton();
         adressText = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gravity Guy - Lobby");
@@ -78,18 +80,24 @@ public class Front extends javax.swing.JFrame {
 
         adressText.setText("localhost");
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("Esperando que se conecte el otro jugador...");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(connectButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(adressText, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(serverButton)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(connectButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(adressText)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(serverButton)))
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,7 +107,9 @@ public class Front extends javax.swing.JFrame {
                     .addComponent(connectButton)
                     .addComponent(serverButton)
                     .addComponent(adressText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addComponent(jLabel1)
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         pack();
@@ -159,12 +169,11 @@ public class Front extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "OK");
             
             try {
-                while (!in.ready()){
-                    
-                }
+                jLabel1.setVisible(true);
+                while (!in.ready()){}
                 resultado = in.readLine();
                 if (resultado.equals("START GAME")){
-                    VentanaJuego vj = new VentanaJuego();
+                    VentanaJuego vj = new VentanaJuego(pingSocket, out, in);
                     vj.setVisible(true);
                 }
             } catch (IOException ex) {
@@ -175,13 +184,13 @@ public class Front extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, resultado);
         }
         
-        out.close();
+        /*out.close();
         try {
             in.close();
             pingSocket.close();
         } catch (IOException ex) {
             Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         
         
     }//GEN-LAST:event_connectButtonActionPerformed
@@ -234,6 +243,7 @@ public class Front extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField adressText;
     private javax.swing.JButton connectButton;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton serverButton;
     // End of variables declaration//GEN-END:variables
 }
