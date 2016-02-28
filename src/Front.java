@@ -159,7 +159,7 @@ public class Front extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "OK");
         }
         else{
-            JOptionPane.showMessageDialog(null, "OK");
+            JOptionPane.showMessageDialog(null, resultado);
         }
         
         out.close();
