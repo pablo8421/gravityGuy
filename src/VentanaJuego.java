@@ -52,6 +52,7 @@ public class VentanaJuego extends java.awt.Frame {
             deSerializePiece(br);
         }
         
+        paintor = new Paintor(this);
         thread = new Thread(paintor);
         thread.start();
     }
@@ -231,7 +232,7 @@ public class VentanaJuego extends java.awt.Frame {
         @Override
         public void keyTyped(KeyEvent e)
         {
-            System.out.println("keyTyped");
+            //System.out.println("keyTyped");
         }
 
         @Override
@@ -250,7 +251,7 @@ public class VentanaJuego extends java.awt.Frame {
         @Override
         public void keyReleased(KeyEvent e)
         {
-            System.out.println("keyReleased");
+            //System.out.println("keyReleased");
         }
     }
 
@@ -268,7 +269,7 @@ public class VentanaJuego extends java.awt.Frame {
         {
             while(true)
             {
-                juego.paint(juego.getGraphics());    
+                juego.repaint();
             }
         }
     }
