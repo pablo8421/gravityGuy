@@ -208,10 +208,6 @@ public class VentanaJuego extends java.awt.Frame {
                 cuadrado = new Cuadrado(xAnterior, 0, randomx, randomy);
                 cuadrados.add(cuadrado);
             }*/
-            for (int i = 0; i < cuadrados.size(); i++) {
-                g.setColor(Color.red);
-                g.drawRect(cuadrados.get(i).x0, cuadrados.get(i).y0, cuadrados.get(i).width, cuadrados.get(i).height);
-            }
 
             //PARA ABAJO
             for (int i = 0; i < cuadrados2.size(); i++) {
@@ -233,6 +229,28 @@ public class VentanaJuego extends java.awt.Frame {
                 cuadrado = new Cuadrado(xAnterior, this.getHeight() - randomy, randomx, randomy);
                 cuadrados2.add(cuadrado);
             }*/
+            out.write("ESPERANDO RESPUESTA "+c+"\r\n");
+            if (c =='1')
+                c = '0';
+            try {
+                while (!in.ready()){}
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String br = null;
+            try {
+                while(!(br = in.readLine()).equals("END STATE")){
+                    deSerializePiece(br);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+            for (int i = 0; i < cuadrados.size(); i++) {
+                g.setColor(Color.red);
+                g.drawRect(cuadrados.get(i).x0, cuadrados.get(i).y0, cuadrados.get(i).width, cuadrados.get(i).height);
+            }
+            
             for (int i = 0; i < cuadrados2.size(); i++) {
                 g.setColor(Color.red);
                 g.drawRect(cuadrados2.get(i).x0, cuadrados2.get(i).y0, cuadrados2.get(i).width, cuadrados2.get(i).height);
@@ -250,17 +268,7 @@ public class VentanaJuego extends java.awt.Frame {
             
             try {
                 Thread.sleep(50);
-                out.write("ESPERANDO RESPUESTA "+c+"\r\n");
-                if (c =='1')
-                    c = '0';
-                while (!in.ready()){}
-                String br = null;
-                while(!(br = in.readLine()).equals("END STATE")){
-                    deSerializePiece(br);
-                }
             } catch (InterruptedException ex) {
-                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
                 Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
