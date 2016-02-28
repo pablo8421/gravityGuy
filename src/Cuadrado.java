@@ -10,6 +10,11 @@
  */
 public class Cuadrado {
     public int x0,y0,width,height;
+    
+    public Cuadrado(){
+    
+    }
+    
     public Cuadrado(int x0, int y0, int width, int height){
         this.x0 = x0;
         this.y0 = y0;
