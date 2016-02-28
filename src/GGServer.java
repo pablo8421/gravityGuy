@@ -288,6 +288,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 gs.updateState();
                 serialized = gs.serializeState();
                 sendBoth(serialized);
+                sendBoth("END STATE");
             }
             
         }
