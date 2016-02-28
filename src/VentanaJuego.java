@@ -255,7 +255,7 @@ public class VentanaJuego extends java.awt.Frame {
                     c = '0';
                 while (!in.ready()){}
                 String br = null;
-                while((br = in.readLine())!= null){
+                while(!(br = in.readLine()).equals("END STATE")){
                     deSerializePiece(br);
                 }
             } catch (InterruptedException ex) {
