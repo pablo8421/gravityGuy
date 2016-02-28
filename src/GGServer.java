@@ -36,6 +36,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
     
     private static int userQuantity = 1;
     
+    private static ServerSocket welcomeSocket;
     private static Socket sockets[];
     private static BufferedReader in[];
     private static DataOutputStream out[];
@@ -68,6 +69,27 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent)
             {
+                for(int i = 0; i < userQuantity; i++)
+                {
+                    try
+                    {
+                        in[i].close();
+                        out[i].close();
+                        sockets[i].close();
+                    } catch (Exception ex)
+                    {
+                        //Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                try
+                {
+                    welcomeSocket.close();
+                } catch (IOException ex)
+                {
+                    //Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 running = false;
 
             }
@@ -181,11 +203,19 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             try
             {
                 //Obtener puerto de entrada
-                ServerSocket welcomeSocket = new ServerSocket(puerto);                
+                welcomeSocket = new ServerSocket(puerto);                
                 while (quantity != userQuantity)
                 {
-                    //Inizializa el socket para aceptar la conexion
-                    Socket connectionSocket = welcomeSocket.accept();
+                    Socket connectionSocket;
+                    try
+                    {
+                        //Inizializa el socket para aceptar la conexion
+                        connectionSocket = welcomeSocket.accept();                        
+                    }
+                    catch(Exception e)
+                    {
+                        return;
+                    }
                     
                     addLog("Connection received");
                     
@@ -212,6 +242,8 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 }
                 
                 startGame();
+                
+                welcomeSocket.close();
                 
             } catch (IOException ex)
             {
