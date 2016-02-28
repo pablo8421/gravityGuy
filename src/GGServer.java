@@ -5,10 +5,13 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -30,13 +33,16 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
     
     public boolean running;
     
-    private static int puerto = 2222;
+    private static int puerto = 2525;
     
     private int userQuantity = 2;
     private static Thread threads[];
     private static UserConnection userManager[];
     private Thread serverThread;
     private ServerConnection serverRun;
+    private static JTextArea verbose;
+    
+    public final static String CRLF = "\r\n";
     
     
     
@@ -66,6 +72,16 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             }
         });
         
+        try
+        {
+            InetAddress address = InetAddress.getLocalHost();
+            addressLabel.setText(address.getHostAddress());
+        } catch (UnknownHostException ex)
+        {
+            addressLabel.setText("No idea");
+            Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         userManager = new UserConnection[userQuantity];
         for(int i = 0; i < userQuantity; i++)
         {
@@ -81,6 +97,8 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         serverRun = new ServerConnection();
         serverThread = new Thread(serverRun);
         serverThread.start();
+        
+        verbose = textAreaVerbose;
     }
 
     /**
@@ -151,6 +169,12 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         this.setVisible(true);
     }
 
+    private static void addLog(String text)
+    {
+        verbose.setText(verbose.getText() + text + "\n");
+        
+    }
+    
     private static class UserConnection implements Runnable {
 
         public Socket socket;
@@ -158,7 +182,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         public DataOutputStream out;
         
         public int ident;
-        public boolean initGame;
+        public boolean keepGoing = true;
         
         public UserConnection()
         {
@@ -176,16 +200,27 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         @Override
         public void run()
         {
+            String request = "";
             try
             {
-                boolean keepGoing = true;
+                addLog("Entro");
                 
-                String request = in.readLine();
+                //while(!in.ready()){}
+                
+                
+                
+                request = in.readLine();
                 
                 if(request.equals("HELLO"))
                 {
-                    out.writeBytes("OK player "+ident);
+                    out.writeBytes("OK player "+ident + CRLF);
                 }
+                else
+                {
+                    out.writeBytes("NOT player "+ident + CRLF);
+                }
+                
+                addLog("Player " + ident + " connected");
                 
                 while(keepGoing)
                 {
@@ -216,6 +251,8 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 {
                     //Inizializa el socket para aceptar la conexion
                     Socket connectionSocket = welcomeSocket.accept();
+                    
+                    addLog("Connection received");
                     
                     userManager[quantity].addSocket(connectionSocket);
                     userManager[quantity].ident = quantity;
