@@ -34,6 +34,8 @@ public class VentanaJuego extends java.awt.Frame {
     static char c;
     PrintWriter out;
     BufferedReader in;
+    Thread thread;
+    Paintor paintor;
     
 
     public VentanaJuego(Socket pingSocket, PrintWriter out, BufferedReader in) throws IOException {
@@ -50,7 +52,8 @@ public class VentanaJuego extends java.awt.Frame {
             deSerializePiece(br);
         }
         
-
+        thread = new Thread(paintor);
+        thread.start();
     }
 
     /**
@@ -159,33 +162,8 @@ public class VentanaJuego extends java.awt.Frame {
         }
     }
     
+    @Override
     public void paint(Graphics g) {
-    //Here is how we used to draw a square with width
-        //of 200, height of 200, and starting at x=50, y=50.
-    
-        //PARA ARRIBA
-        /*while (x < this.getWidth()) {
-            randomx = (int) (Math.random() * (150 - 0)) + 10;
-            randomy = (int) (Math.random() * (150 - 0)) + 10;
-            x = xAnterior;
-            cuadrado = new Cuadrado(x, 0, randomx, randomy);
-            cuadrados.add(cuadrado);
-            xAnterior = xAnterior + randomx;
-        }*/
-
-        //PARA ABAJO, Para abajo Para abajo
-        /*x = 0;
-        while (x < this.getWidth()) {
-            randomx = (int) (Math.random() * (150 - 0)) + 10;
-            randomy = (int) (Math.random() * (150 - 0)) + 10;
-            x = xAnterior;
-            cuadrado = new Cuadrado(x, this.getHeight() - randomy, randomx, randomy);
-            cuadrados2.add(cuadrado);
-            xAnterior = xAnterior + randomx;
-        }*/
-        
-        
-        while (true) {
             
             g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
             //PARA ARRIBA
@@ -193,42 +171,13 @@ public class VentanaJuego extends java.awt.Frame {
                 g.setColor(Color.white);
                 g.drawRect(cuadrados.get(i).x0, cuadrados.get(i).y0, cuadrados.get(i).width, cuadrados.get(i).height);
             }
-            /*for (int i = 0; i < cuadrados.size(); i++) {
-                cuadrados.get(i).x0 -= 10;
-            }
-            if ((cuadrados.get(0).x0 + cuadrados.get(0).width) <= 0) {
-                cuadrados.remove(0);
-            }
-            if ((cuadrados.get(cuadrados.size() - 1).x0 + cuadrados.get(cuadrados.size() - 1).width) <= this.getWidth()) {
-                randomx = (int) (Math.random() * (150 - 0)) + 10;
-                randomy = (int) (Math.random() * (150 - 0)) + 10;
-            //g.setColor(Color.red);
-                //g.drawRect(x,0,randomx,randomy);
-                xAnterior = cuadrados.get(cuadrados.size() - 1).x0 + cuadrados.get(cuadrados.size() - 1).width;
-                cuadrado = new Cuadrado(xAnterior, 0, randomx, randomy);
-                cuadrados.add(cuadrado);
-            }*/
 
             //PARA ABAJO
             for (int i = 0; i < cuadrados2.size(); i++) {
                 g.setColor(Color.white);
                 g.drawRect(cuadrados2.get(i).x0, cuadrados2.get(i).y0, cuadrados2.get(i).width, cuadrados2.get(i).height);
             }
-            /*for (int i = 0; i < cuadrados2.size(); i++) {
-                cuadrados2.get(i).x0 -= 10;
-            }
-            if ((cuadrados2.get(0).x0 + cuadrados2.get(0).width) <= 0) {
-                cuadrados2.remove(0);
-            }
-            if ((cuadrados2.get(cuadrados2.size() - 1).x0 + cuadrados2.get(cuadrados2.size() - 1).width) <= this.getWidth()) {
-                randomx = (int) (Math.random() * (150 - 0)) + 10;
-                randomy = (int) (Math.random() * (150 - 0)) + 10;
-            //g.setColor(Color.red);
-                //g.drawRect(x,0,randomx,randomy);
-                xAnterior = cuadrados2.get(cuadrados2.size() - 1).x0 + cuadrados2.get(cuadrados2.size() - 1).width;
-                cuadrado = new Cuadrado(xAnterior, this.getHeight() - randomy, randomx, randomy);
-                cuadrados2.add(cuadrado);
-            }*/
+
             out.write("ESPERANDO RESPUESTA "+c+"\r\n");
             if (c =='1')
                 c = '0';
@@ -271,8 +220,7 @@ public class VentanaJuego extends java.awt.Frame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-    } 
+     } 
 
     private static class myKeyListener implements KeyListener {
 
@@ -303,6 +251,25 @@ public class VentanaJuego extends java.awt.Frame {
         public void keyReleased(KeyEvent e)
         {
             System.out.println("keyReleased");
+        }
+    }
+
+    private class Paintor implements Runnable {
+
+        VentanaJuego juego;
+        
+        public Paintor(VentanaJuego juego)
+        {
+            this.juego = juego;
+        }
+
+        @Override
+        public void run()
+        {
+            while(true)
+            {
+                juego.paint(juego.getGraphics());    
+            }
         }
     }
 }
