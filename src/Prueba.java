@@ -159,7 +159,11 @@ public class Prueba extends java.awt.Frame {
             g.setColor(Color.white);
             g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
             //AQUI SE LLAMA LA GRAVEDAD
-            gravedadAbajo(cuadroActual);
+            
+            PlayerManage playerm1 = new PlayerManage(jugador1,cuadrados2,cuadroActual);
+            Thread infThread = new Thread(playerm1);
+            infThread.start();
+            
             g.setColor(Color.black);
             g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
             try {
@@ -167,24 +171,8 @@ public class Prueba extends java.awt.Frame {
             } catch (InterruptedException ex) {
                 Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
-
-    }
-    public void gravedadAbajo(int cuadroActual){
-        int jugador1Y;
-        int pisoY;
-        Cuadrado piso = cuadrados2.get(cuadroActual);
-        jugador1Y = jugador1.y0 + jugador1.height;
-        pisoY = piso.y0 + piso.height;
-        if(pisoY > jugador1Y){
-            jugador1.y0 += 5;
-            
-        }
-        
-    }
+    } 
 }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
