@@ -31,6 +31,7 @@ public class VentanaJuego extends java.awt.Frame {
     Cuadrado jugador1=new Cuadrado(320, 320, 100, 100);;
     Cuadrado jugador2;
     Socket pingSocket;
+    static char c;
     PrintWriter out;
     BufferedReader in;
     
@@ -239,7 +240,9 @@ public class VentanaJuego extends java.awt.Frame {
             
             try {
                 Thread.sleep(50);
-                out.write("ESPERANDO RESPUESTA"+"\r\n");
+                out.write("ESPERANDO RESPUESTA "+c+"\r\n");
+                if (c =='1')
+                    c = '0';
                 while (!in.ready()){}
                 String br = null;
                 while((br = in.readLine())!= null){
@@ -268,7 +271,14 @@ public class VentanaJuego extends java.awt.Frame {
         @Override
         public void keyPressed(KeyEvent e)
         {
-            System.out.println("keyPresed");
+            
+            if (e.getKeyChar() == ' '){
+                System.out.println("keyRelegdfg");
+                c = '1';
+            }
+            else{
+                c = '0';
+            }
         }
 
         @Override
