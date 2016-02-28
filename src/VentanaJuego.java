@@ -94,9 +94,13 @@ public class VentanaJuego extends java.awt.Frame {
             Cuadrado player;
             if (piece.startsWith("J1"))
             {
+                if (jugador1 == null)
+                    jugador1 = new Cuadrado();
                 player = jugador1;
             } else
             {
+                if (jugador2 == null)
+                    jugador2 = new Cuadrado();
                 player = jugador2;
             }
 
@@ -115,9 +119,13 @@ public class VentanaJuego extends java.awt.Frame {
             ArrayList<Cuadrado> list;
             if (piece.startsWith("BT"))
             {
+                if (cuadrados2 == null)
+                    cuadrados2 = new ArrayList<>();
                 list = cuadrados2;
             } else
             {
+                if (cuadrados == null)
+                    cuadrados = new ArrayList<>();
                 list = cuadrados;
             }
             
