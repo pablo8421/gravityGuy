@@ -33,11 +33,13 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
     
     public boolean running;
     
-    private static int puerto = 2525;
+    private static int puerto = 6321;
     
-    private int userQuantity = 2;
-    private static Thread threads[];
-    private static UserConnection userManager[];
+    private static int userQuantity = 2;
+    
+    private static Socket sockets[];
+    private static BufferedReader in[];
+    private static DataOutputStream out[];
     private Thread serverThread;
     private ServerConnection serverRun;
     private static JTextArea verbose;
@@ -82,17 +84,9 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        userManager = new UserConnection[userQuantity];
-        for(int i = 0; i < userQuantity; i++)
-        {
-            userManager[i] = new UserConnection();
-        }
-        
-        threads = new Thread[userQuantity];
-        for(int i = 0; i < userQuantity; i++)
-        {
-            threads[i] = new Thread(userManager[i]);
-        }
+        sockets = new Socket[userQuantity];
+        in = new BufferedReader[userQuantity];
+        out = new DataOutputStream[userQuantity];
         
         serverRun = new ServerConnection();
         serverThread = new Thread(serverRun);
@@ -175,64 +169,6 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         
     }
     
-    private static class UserConnection implements Runnable {
-
-        public Socket socket;
-        public BufferedReader in;
-        public DataOutputStream out;
-        
-        public int ident;
-        public boolean keepGoing = true;
-        
-        public UserConnection()
-        {
-        }
-
-        public void addSocket(Socket socket) throws IOException
-        {
-            this.socket = socket;
-            //Obtener buffers
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new DataOutputStream(socket.getOutputStream());
-            
-        }
-        
-        @Override
-        public void run()
-        {
-            String request = "";
-            try
-            {
-                addLog("Entro");
-                
-                //while(!in.ready()){}
-                
-                
-                
-                request = in.readLine();
-                
-                if(request.equals("HELLO"))
-                {
-                    out.writeBytes("OK player "+ident + CRLF);
-                }
-                else
-                {
-                    out.writeBytes("NOT player "+ident + CRLF);
-                }
-                
-                addLog("Player " + ident + " connected");
-                
-                while(keepGoing)
-                {
-                    
-                }
-            } catch (IOException ex)
-            {
-                Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
     private static class ServerConnection implements Runnable{
 
         public ServerConnection()
@@ -254,17 +190,55 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                     
                     addLog("Connection received");
                     
-                    userManager[quantity].addSocket(connectionSocket);
-                    userManager[quantity].ident = quantity;
-                    threads[quantity].start();
+                    sockets[quantity] = connectionSocket;
+                    
+                    in[quantity] = new BufferedReader(new InputStreamReader(sockets[quantity].getInputStream()));
+                    out[quantity] = new DataOutputStream(sockets[quantity].getOutputStream());
+                    
+                    String request = in[quantity].readLine();
+
+                    if (request.equals("HELLO"))
+                    {
+                        out[quantity].writeBytes("OK player " + quantity + CRLF);
+                    } else
+                    {
+                        out[quantity].writeBytes("NOT player " + quantity + CRLF);
+                    }
+
+                    addLog("Player " + quantity + " connected");
+
                     
                     quantity++;
                     
                 }
+                
+                startGame();
+                
             } catch (IOException ex)
             {
                 Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        
+        private static void sendBoth(String message)
+        {
+            for(int i = 0; i < userQuantity; i++)
+            {
+                try
+                {
+                    out[i].writeBytes(message + CRLF);
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            addLog(message);
+        }
+        
+        public void startGame()
+        {
+            sendBoth("START GAME");
         }
     }
 }
