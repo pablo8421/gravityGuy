@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -32,11 +33,16 @@ public class VentanaJuego extends java.awt.Frame {
     BufferedReader in;
     
 
-    public VentanaJuego(Socket pingSocket, PrintWriter out, BufferedReader in) {
+    public VentanaJuego(Socket pingSocket, PrintWriter out, BufferedReader in) throws IOException {
         initComponents();
         this.pingSocket = pingSocket;
         this.out = out;
         this.in = in;
+        while (!in.ready()){}
+        String br = null;
+        while((br = in.readLine())!= null){
+            deSerializePiece(br);
+        }
     }
 
     /**
@@ -70,30 +76,84 @@ public class VentanaJuego extends java.awt.Frame {
      * @param args the command line arguments
      */
 
+    public void deSerializePiece(String piece)
+    {        
+        if(piece.startsWith("J"))
+        {
+            Cuadrado player;
+            if (piece.startsWith("J1"))
+            {
+                player = jugador1;
+            } else
+            {
+                player = jugador2;
+            }
+
+            piece = piece.substring(piece.indexOf("[") + 1);
+            piece = piece.substring(0, piece.indexOf("]"));
+            String values[] = piece.split(",");
+
+            player.x0 = Integer.parseInt(values[0]);
+            player.y0 = Integer.parseInt(values[1]);
+            player.width = Integer.parseInt(values[2]);
+            player.height = Integer.parseInt(values[3]);
+            
+        }
+        else
+        {
+            ArrayList<Cuadrado> list;
+            if (piece.startsWith("BT"))
+            {
+                list = cuadrados2;
+            } else
+            {
+                list = cuadrados;
+            }
+            
+            int index = Integer.parseInt(piece.substring(2,piece.indexOf("[")).trim());
+            
+            piece = piece.substring(piece.indexOf("[") + 1);
+            piece = piece.substring(0, piece.indexOf("]"));
+            String values[] = piece.split(",");
+            
+            Cuadrado cuadrado = new Cuadrado(
+                Integer.parseInt(values[0]), //x0
+                Integer.parseInt(values[1]), //y0
+                Integer.parseInt(values[2]), //width
+                Integer.parseInt(values[3])  //height
+            );
+            if(index < list.size())
+            {
+                list.set(index, cuadrado);
+            }
+            else if(index == list.size())
+            {
+                list.add(cuadrado);
+            }
+            else
+            {
+                //wtf?
+                throw new IndexOutOfBoundsException();
+            }
+        }
+    }
+    
     public void paint(Graphics g) {
     //Here is how we used to draw a square with width
         //of 200, height of 200, and starting at x=50, y=50.
-        cuadrados = new ArrayList();
-        cuadrados2 = new ArrayList();
-        Cuadrado cuadrado;
-        int randomx;
-        int cuadroActual=0;
-        int randomy;
-        int xAnterior = 0;
-        int x = 0;
-
+    
         //PARA ARRIBA
-        while (x < this.getWidth()) {
+        /*while (x < this.getWidth()) {
             randomx = (int) (Math.random() * (150 - 0)) + 10;
             randomy = (int) (Math.random() * (150 - 0)) + 10;
             x = xAnterior;
             cuadrado = new Cuadrado(x, 0, randomx, randomy);
             cuadrados.add(cuadrado);
             xAnterior = xAnterior + randomx;
-        }
+        }*/
 
         //PARA ABAJO, Para abajo Para abajo
-        x = 0;
+        /*x = 0;
         while (x < this.getWidth()) {
             randomx = (int) (Math.random() * (150 - 0)) + 10;
             randomy = (int) (Math.random() * (150 - 0)) + 10;
@@ -101,16 +161,18 @@ public class VentanaJuego extends java.awt.Frame {
             cuadrado = new Cuadrado(x, this.getHeight() - randomy, randomx, randomy);
             cuadrados2.add(cuadrado);
             xAnterior = xAnterior + randomx;
-        }
+        }*/
         
-        g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
+        
         while (true) {
+            
+            g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
             //PARA ARRIBA
-            /*for (int i = 0; i < cuadrados.size(); i++) {
+            for (int i = 0; i < cuadrados.size(); i++) {
                 g.setColor(Color.white);
                 g.drawRect(cuadrados.get(i).x0, cuadrados.get(i).y0, cuadrados.get(i).width, cuadrados.get(i).height);
             }
-            for (int i = 0; i < cuadrados.size(); i++) {
+            /*for (int i = 0; i < cuadrados.size(); i++) {
                 cuadrados.get(i).x0 -= 10;
             }
             if ((cuadrados.get(0).x0 + cuadrados.get(0).width) <= 0) {
@@ -124,18 +186,18 @@ public class VentanaJuego extends java.awt.Frame {
                 xAnterior = cuadrados.get(cuadrados.size() - 1).x0 + cuadrados.get(cuadrados.size() - 1).width;
                 cuadrado = new Cuadrado(xAnterior, 0, randomx, randomy);
                 cuadrados.add(cuadrado);
-            }
+            }*/
             for (int i = 0; i < cuadrados.size(); i++) {
                 g.setColor(Color.red);
                 g.drawRect(cuadrados.get(i).x0, cuadrados.get(i).y0, cuadrados.get(i).width, cuadrados.get(i).height);
-            }*/
+            }
 
             //PARA ABAJO
             for (int i = 0; i < cuadrados2.size(); i++) {
                 g.setColor(Color.white);
                 g.drawRect(cuadrados2.get(i).x0, cuadrados2.get(i).y0, cuadrados2.get(i).width, cuadrados2.get(i).height);
             }
-            for (int i = 0; i < cuadrados2.size(); i++) {
+            /*for (int i = 0; i < cuadrados2.size(); i++) {
                 cuadrados2.get(i).x0 -= 10;
             }
             if ((cuadrados2.get(0).x0 + cuadrados2.get(0).width) <= 0) {
@@ -149,25 +211,32 @@ public class VentanaJuego extends java.awt.Frame {
                 xAnterior = cuadrados2.get(cuadrados2.size() - 1).x0 + cuadrados2.get(cuadrados2.size() - 1).width;
                 cuadrado = new Cuadrado(xAnterior, this.getHeight() - randomy, randomx, randomy);
                 cuadrados2.add(cuadrado);
-            }
+            }*/
             for (int i = 0; i < cuadrados2.size(); i++) {
                 g.setColor(Color.red);
                 g.drawRect(cuadrados2.get(i).x0, cuadrados2.get(i).y0, cuadrados2.get(i).width, cuadrados2.get(i).height);
-                if(cuadrados2.get(i).x0 <= jugador1.x0 && (cuadrados2.get(i).x0 + cuadrados2.get(i).width) >= jugador1.x0){
+                /*if(cuadrados2.get(i).x0 <= jugador1.x0 && (cuadrados2.get(i).x0 + cuadrados2.get(i).width) >= jugador1.x0){
                     cuadroActual = i;
-                }
+                }*/
             }
             
             //AQUI SE LLAMA LA GRAVEDAD
             
-            PlayerManage playerm1 = new PlayerManage(jugador1,cuadrados2,cuadroActual,g);
+            /*PlayerManage playerm1 = new PlayerManage(jugador1,cuadrados2,cuadroActual,g);
             Thread infThread = new Thread(playerm1);
-            infThread.start();
+            infThread.start();*/
             
             
             try {
                 Thread.sleep(50);
+                while (!in.ready()){}
+                String br = null;
+                while((br = in.readLine())!= null){
+                    deSerializePiece(br);
+                }
             } catch (InterruptedException ex) {
+                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
                 Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
