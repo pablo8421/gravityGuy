@@ -46,7 +46,7 @@ public class VentanaJuego extends java.awt.Frame {
         this.setFocusTraversalKeysEnabled(false);
         while (!in.ready()){}
         String br = null;
-        while((br = in.readLine())!= null){
+        while(!(br = in.readLine()).equals("END STATE")){
             deSerializePiece(br);
         }
         
