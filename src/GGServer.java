@@ -386,5 +386,48 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             }
 
         }
+        
+        public String serializeState()
+        {
+            String data = "";
+            
+            data+= "J1 [" + 
+                    jugador1.x0 + "," +
+                    jugador1.y0 + "," +
+                    jugador1.width + "," +
+                    jugador1.height + "," +
+                    "]" + CRLF;
+
+            data+= "J2 [" + 
+                    jugador1.x0 + "," +
+                    jugador1.y0 + "," +
+                    jugador1.width + "," +
+                    jugador1.height + "," +
+                    "]" + CRLF;
+            
+            for(int i = 0; i < cuadradosTop.size(); i++)
+            {
+                Cuadrado cuadrado = cuadradosTop.get(i);
+                data += "CT" + i + " ["
+                        + cuadrado.x0 + ","
+                        + cuadrado.y0 + ","
+                        + cuadrado.width + ","
+                        + cuadrado.height + ","
+                        + "]" + CRLF;
+            }
+
+            for(int i = 0; i < cuadradosBottom.size(); i++)
+            {
+                Cuadrado cuadrado = cuadradosBottom.get(i);
+                data += "BT" + i + " ["
+                        + cuadrado.x0 + ","
+                        + cuadrado.y0 + ","
+                        + cuadrado.width + ","
+                        + cuadrado.height + ","
+                        + "]" + CRLF;
+            }            
+            
+            return data;
+        }
     }
 }
