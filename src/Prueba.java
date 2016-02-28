@@ -82,14 +82,14 @@ public class Prueba extends java.awt.Frame {
         int x = 0;
 
         //PARA ARRIBA
-        while (x < this.getWidth()) {
+        /*while (x < this.getWidth()) {
             randomx = (int) (Math.random() * (150 - 0)) + 10;
             randomy = (int) (Math.random() * (150 - 0)) + 10;
             x = xAnterior;
             cuadrado = new Cuadrado(x, 0, randomx, randomy);
             cuadrados.add(cuadrado);
             xAnterior = xAnterior + randomx;
-        }
+        }*/
 
         //PARA ABAJO, Para abajo Para abajo
         x = 0;
@@ -105,7 +105,7 @@ public class Prueba extends java.awt.Frame {
         g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
         while (true) {
             //PARA ARRIBA
-            for (int i = 0; i < cuadrados.size(); i++) {
+            /*for (int i = 0; i < cuadrados.size(); i++) {
                 g.setColor(Color.white);
                 g.drawRect(cuadrados.get(i).x0, cuadrados.get(i).y0, cuadrados.get(i).width, cuadrados.get(i).height);
             }
@@ -127,7 +127,7 @@ public class Prueba extends java.awt.Frame {
             for (int i = 0; i < cuadrados.size(); i++) {
                 g.setColor(Color.red);
                 g.drawRect(cuadrados.get(i).x0, cuadrados.get(i).y0, cuadrados.get(i).width, cuadrados.get(i).height);
-            }
+            }*/
 
             //PARA ABAJO
             for (int i = 0; i < cuadrados2.size(); i++) {
@@ -156,16 +156,14 @@ public class Prueba extends java.awt.Frame {
                     cuadroActual = i;
                 }
             }
-            g.setColor(Color.white);
-            g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
+            
             //AQUI SE LLAMA LA GRAVEDAD
             
-            PlayerManage playerm1 = new PlayerManage(jugador1,cuadrados2,cuadroActual);
+            PlayerManage playerm1 = new PlayerManage(jugador1,cuadrados2,cuadroActual,g);
             Thread infThread = new Thread(playerm1);
             infThread.start();
             
-            g.setColor(Color.black);
-            g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
+            
             try {
                 Thread.sleep(50);
             } catch (InterruptedException ex) {
