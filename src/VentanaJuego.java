@@ -229,6 +229,7 @@ public class VentanaJuego extends java.awt.Frame {
             
             try {
                 Thread.sleep(50);
+                out.write("ESPERANDO RESPUESTA"+"\r\n");
                 while (!in.ready()){}
                 String br = null;
                 while((br = in.readLine())!= null){
