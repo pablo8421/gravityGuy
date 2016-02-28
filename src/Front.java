@@ -1,6 +1,12 @@
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -47,8 +53,7 @@ public class Front extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         connectButton = new javax.swing.JButton();
         serverButton = new javax.swing.JButton();
@@ -58,12 +63,15 @@ public class Front extends javax.swing.JFrame {
         setTitle("Gravity Guy - Lobby");
 
         connectButton.setText("Connect to Server");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectButtonActionPerformed(evt);
+            }
+        });
 
         serverButton.setText("Start Server");
-        serverButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        serverButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 serverButtonActionPerformed(evt);
             }
         });
@@ -119,6 +127,49 @@ public class Front extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_serverButtonActionPerformed
+
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+        Socket pingSocket = null;
+        PrintWriter out = null;
+        BufferedReader in = null;
+        
+        try {
+            pingSocket = new Socket(adressText.getText(), 2222);
+            out = new PrintWriter(pingSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(pingSocket.getInputStream()));
+        } catch (IOException e) {
+            System.out.println("Hay un problema en redireccionar correo.");
+        }
+        out.write("HELLO");
+        try {
+            while (!in.ready()){
+                
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String resultado = "";        
+        try {
+            resultado = in.readLine();
+        } catch (IOException ex) {
+            Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (resultado.equals("OK")){
+            JOptionPane.showMessageDialog(null, "OK");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "OK");
+        }
+        
+        out.close();
+        try {
+            in.close();
+            pingSocket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_connectButtonActionPerformed
 
     /**
      * @param args the command line arguments
