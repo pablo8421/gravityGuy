@@ -134,20 +134,20 @@ public class Front extends javax.swing.JFrame {
         BufferedReader in = null;
         
         try {
-            pingSocket = new Socket(adressText.getText(), 2525);
+            pingSocket = new Socket(adressText.getText(), 6321);
             out = new PrintWriter(pingSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(pingSocket.getInputStream()));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "No se pudo conectar al servidor de Gravity Guy");
         }
-        out.write("HELLO\r\n");
-        //try {
-            /*while (!in.ready()){
+        out.println("HELLO\r\n");
+        try {
+            while (!in.ready()){
                 System.out.println("oli");
-            }*/
-        /*} catch (IOException ex) {
+            }
+        } catch (IOException ex) {
             Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
         String resultado = "";        
         try {
             resultado = in.readLine();
@@ -157,6 +157,18 @@ public class Front extends javax.swing.JFrame {
         
         if (resultado.equals("OK")){
             JOptionPane.showMessageDialog(null, "OK");
+            
+            try {
+                while (!in.ready()){
+                    
+                }
+                resultado = in.readLine();
+                if (resultado.equals("START GAME")){
+                    //Instanciar a Kevin
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         else{
             JOptionPane.showMessageDialog(null, resultado);
@@ -169,10 +181,13 @@ public class Front extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
     }//GEN-LAST:event_connectButtonActionPerformed
 
     /**
      * @param args the command line arguments
+     * 
      */
     public static void main(String args[])
     {
