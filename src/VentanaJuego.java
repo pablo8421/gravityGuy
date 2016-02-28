@@ -88,8 +88,10 @@ public class VentanaJuego extends java.awt.Frame {
      */
 
     public void deSerializePiece(String piece)
-    {        
-        if(piece.startsWith("J"))
+    {   
+        if(piece.equals("")){}
+        
+        else if(piece.startsWith("J"))
         {
             Cuadrado player;
             if (piece.startsWith("J1"))
