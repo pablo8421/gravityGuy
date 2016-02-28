@@ -162,14 +162,14 @@ public class GameState {
                 + jugador1.x0 + ","
                 + jugador1.y0 + ","
                 + jugador1.width + ","
-                + jugador1.height + ","
+                + jugador1.height
                 + "]" + CRLF;
 
         data += "J2 ["
                 + jugador1.x0 + ","
                 + jugador1.y0 + ","
                 + jugador1.width + ","
-                + jugador1.height + ","
+                + jugador1.height
                 + "]" + CRLF;
 
         for (int i = 0; i < cuadradosTop.size(); i++)
@@ -179,7 +179,7 @@ public class GameState {
                     + cuadrado.x0 + ","
                     + cuadrado.y0 + ","
                     + cuadrado.width + ","
-                    + cuadrado.height + ","
+                    + cuadrado.height
                     + "]" + CRLF;
         }
 
@@ -190,10 +190,72 @@ public class GameState {
                     + cuadrado.x0 + ","
                     + cuadrado.y0 + ","
                     + cuadrado.width + ","
-                    + cuadrado.height + ","
+                    + cuadrado.height
                     + "]" + CRLF;
         }
 
         return data;
+    }
+    
+    public void deSerializePiece(String piece)
+    {        
+        if(piece.startsWith("J"))
+        {
+            Cuadrado player;
+            if (piece.startsWith("J1"))
+            {
+                player = jugador1;
+            } else
+            {
+                player = jugador2;
+            }
+
+            piece = piece.substring(piece.indexOf("[") + 1);
+            piece = piece.substring(0, piece.indexOf("]"));
+            String values[] = piece.split(",");
+
+            player.x0 = Integer.parseInt(values[0]);
+            player.y0 = Integer.parseInt(values[1]);
+            player.width = Integer.parseInt(values[2]);
+            player.height = Integer.parseInt(values[3]);
+            
+        }
+        else
+        {
+            ArrayList<Cuadrado> list;
+            if (piece.startsWith("BT"))
+            {
+                list = cuadradosBottom;
+            } else
+            {
+                list = cuadradosTop;
+            }
+            
+            int index = Integer.parseInt(piece.substring(2,piece.indexOf("[")).trim());
+            
+            piece = piece.substring(piece.indexOf("[") + 1);
+            piece = piece.substring(0, piece.indexOf("]"));
+            String values[] = piece.split(",");
+            
+            Cuadrado cuadrado = new Cuadrado(
+                Integer.parseInt(values[0]), //x0
+                Integer.parseInt(values[1]), //y0
+                Integer.parseInt(values[2]), //width
+                Integer.parseInt(values[3])  //height
+            );
+            if(index < list.size())
+            {
+                list.set(index, cuadrado);
+            }
+            else if(index == list.size())
+            {
+                list.add(cuadrado);
+            }
+            else
+            {
+                //wtf?
+                throw new IndexOutOfBoundsException();
+            }
+        }
     }
 }
