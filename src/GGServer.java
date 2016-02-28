@@ -269,7 +269,24 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         
         public void startGame()
         {
+            GameState gs = new GameState();
+            
             sendBoth("START GAME");
+            
+            gs.initGame();
+            
+            String serialized = gs.serializeState();
+            
+            sendBoth(serialized);
+            
+            /*
+            while(false)
+            {
+                gs.updateState();
+                serialized = gs.serializeState();
+                sendBoth(serialized);
+            }
+            */
         }
     }
 }
