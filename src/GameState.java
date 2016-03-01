@@ -43,7 +43,7 @@ public class GameState {
         //PARA ARRIBA
         while (x < width)
         {
-            randomx = (int) (Math.random() * (150 - 0)) + 10;
+            randomx = 120;
             randomy = (int) (Math.random() * (150 - 0)) + 10;
             x = xAnterior;
             cuadrado = new Cuadrado(x, 0, randomx, randomy);
@@ -53,9 +53,10 @@ public class GameState {
 
         //PARA ABAJO, Para abajo Para abajo
         x = 0;
+        xAnterior = 0;
         while (x < width)
         {
-            randomx = (int) (Math.random() * (150 - 0)) + 10;
+            randomx = 120;
             randomy = (int) (Math.random() * (150 - 0)) + 10;
             x = xAnterior;
             cuadrado = new Cuadrado(x, height - randomy, randomx, randomy);
@@ -73,11 +74,29 @@ public class GameState {
         int xAnterior;
 
         //PARA ARRIBA
-        for (int i = 0; i < cuadradosBottom.size(); i++)
+        for (int i = 0; i < cuadradosTop.size(); i++)
         {
-                //g.setColor(Color.white);
-            //g.drawRect(cuadradosBottom.get(i).x0, cuadradosBottom.get(i).y0, cuadradosBottom.get(i).width, cuadradosBottom.get(i).height);
+            cuadradosTop.get(i).x0 -= 10;
         }
+
+        if ((cuadradosTop.get(0).x0 + cuadradosTop.get(0).width) <= 0)
+        {
+            cuadradosTop.remove(0);
+        }
+        
+        if ((cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width) <= width)
+        {
+            randomx = 120;
+            randomy = (int) (Math.random() * (150 - 0)) + 10;
+                //g.setColor(Color.red);
+            //g.drawRect(x,0,randomx,randomy);
+            xAnterior = cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width;
+            cuadrado = new Cuadrado(xAnterior, 0, randomx, randomy);
+            cuadradosTop.add(cuadrado);
+        }
+        
+
+        //PARA ABAJO
         for (int i = 0; i < cuadradosBottom.size(); i++)
         {
             cuadradosBottom.get(i).x0 -= 10;
@@ -93,49 +112,20 @@ public class GameState {
                 //g.setColor(Color.red);
             //g.drawRect(x,0,randomx,randomy);
             xAnterior = cuadradosBottom.get(cuadradosBottom.size() - 1).x0 + cuadradosBottom.get(cuadradosBottom.size() - 1).width;
-            cuadrado = new Cuadrado(xAnterior, 0, randomx, randomy);
+            cuadrado = new Cuadrado(xAnterior, height - randomy, randomx, randomy);
             cuadradosBottom.add(cuadrado);
         }
+        
         for (int i = 0; i < cuadradosBottom.size(); i++)
         {
                 //g.setColor(Color.red);
-            //g.drawRect(cuadradosBottom.get(i).x0, cuadradosBottom.get(i).y0, cuadradosBottom.get(i).width, cuadradosBottom.get(i).height);
-        }
-
-        //PARA ABAJO
-        for (int i = 0; i < cuadradosTop.size(); i++)
-        {
-                //g.setColor(Color.white);
             //g.drawRect(cuadradosTop.get(i).x0, cuadradosTop.get(i).y0, cuadradosTop.get(i).width, cuadradosTop.get(i).height);
-        }
-        for (int i = 0; i < cuadradosTop.size(); i++)
-        {
-            cuadradosTop.get(i).x0 -= 10;
-        }
-        if ((cuadradosTop.get(0).x0 + cuadradosTop.get(0).width) <= 0)
-        {
-            cuadradosTop.remove(0);
-        }
-        if ((cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width) <= width)
-        {
-            randomx = 120;
-            randomy = (int) (Math.random() * (150 - 0)) + 10;
-                //g.setColor(Color.red);
-            //g.drawRect(x,0,randomx,randomy);
-            xAnterior = cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width;
-            cuadrado = new Cuadrado(xAnterior, height - randomy, randomx, randomy);
-            cuadradosTop.add(cuadrado);
-        }
-        for (int i = 0; i < cuadradosTop.size(); i++)
-        {
-                //g.setColor(Color.red);
-            //g.drawRect(cuadradosTop.get(i).x0, cuadradosTop.get(i).y0, cuadradosTop.get(i).width, cuadradosTop.get(i).height);
-            if (cuadradosTop.get(i).x0 <= jugador1.x0 && (cuadradosTop.get(i).x0 + cuadradosTop.get(i).width) >= jugador1.x0)
+            if (cuadradosBottom.get(i).x0 <= jugador1.x0 && (cuadradosBottom.get(i).x0 + cuadradosBottom.get(i).width) >= jugador1.x0)
             {
                 cuadroActual = i;
             }
         }
-        gravedadArriba(cuadroActual);
+        gravedadAbajo(cuadroActual);
         limitePared(cuadroActual+1); 
         
             //g.setColor(Color.white);
@@ -266,12 +256,17 @@ public class GameState {
     public void gravedadAbajo(int cuadroActual) {
         int jugador1Y;
         int pisoY;
-
-        Cuadrado piso = cuadradosTop.get(cuadroActual);
+        boolean bandera = false;
+        Cuadrado piso = cuadradosBottom.get(cuadroActual);
         jugador1Y = jugador1.y0 + jugador1.height;
         pisoY = piso.y0;
         if (pisoY > jugador1Y) {
             jugador1.y0 += 5;
+            bandera = true;
+        }
+        jugador1Y = jugador1.y0 + jugador1.height;
+        if (pisoY <= jugador1Y && bandera) {
+            jugador1.y0 = pisoY-jugador1.height-1;
         }
     }
     public void gravedadArriba(int cuadroActual) {
@@ -290,16 +285,20 @@ public class GameState {
         int jugador1Y;
         int paredX;
         int pisoY;
-        Cuadrado pared = cuadradosTop.get(cuadroActual);
+        boolean bandera = true;
+        
+        Cuadrado pared = cuadradosBottom.get(cuadroActual);
         jugador1X = jugador1.x0 + jugador1.width;
         jugador1Y = jugador1.y0 + jugador1.height;
         pisoY = pared.y0;
         paredX = pared.x0;
-        if (jugador1X == paredX && pisoY < jugador1Y) {
+        if (jugador1X >= paredX && pisoY < jugador1Y) {
             jugador1.x0 -= 10;
+            
         }
-        else if(jugador1X > paredX && pisoY < jugador1Y){
-            jugador1.x0 = paredX - jugador1.width;
+        jugador1X = jugador1.x0 + jugador1.width;
+        if(jugador1X < paredX && pisoY < jugador1Y){
+            jugador1.x0 = paredX - jugador1.width-1;
         }
     }
     

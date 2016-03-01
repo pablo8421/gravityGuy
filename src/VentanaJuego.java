@@ -136,31 +136,29 @@ public class VentanaJuego extends java.awt.Frame {
             //Erase state
             
             now = gState[previous];
-            
+            g.setColor(Color.white);
             g.drawRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
             //PARA ARRIBA
             for (int i = 0; i < now.cuadradosTop.size(); i++) {
-                g.setColor(Color.white);
                 g.drawRect(now.cuadradosTop.get(i).x0, now.cuadradosTop.get(i).y0, now.cuadradosTop.get(i).width, now.cuadradosTop.get(i).height);
             }
 
             //PARA ABAJO
             for (int i = 0; i < now.cuadradosBottom.size(); i++) {
-                g.setColor(Color.white);
                 g.drawRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
             }
             
             //Paint State
             
             now = gState[current];
-            
+            g.setColor(Color.black);
+            g.drawRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
+            g.setColor(Color.red);
             for (int i = 0; i < now.cuadradosTop.size(); i++) {
-                g.setColor(Color.red);
                 g.drawRect(now.cuadradosTop.get(i).x0, now.cuadradosTop.get(i).y0, now.cuadradosTop.get(i).width, now.cuadradosTop.get(i).height);
             }
             
             for (int i = 0; i < now.cuadradosBottom.size(); i++) {
-                g.setColor(Color.red);
                 g.drawRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
                 /*if(cuadrados2.get(i).x0 <= jugador1.x0 && (cuadrados2.get(i).x0 + cuadrados2.get(i).width) >= jugador1.x0){
                     cuadroActual = i;
