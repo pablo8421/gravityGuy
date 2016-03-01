@@ -1,14 +1,13 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,13 +33,13 @@ public class VentanaJuego extends java.awt.Frame {
     
     Socket pingSocket;
     boolean gDown;
-    PrintWriter out;
+    DataOutputStream out;
     BufferedReader in;
     Thread thread;
     Paintor paintor;
     
 
-    public VentanaJuego(Socket pingSocket, PrintWriter out, BufferedReader in) throws IOException {
+    public VentanaJuego(Socket pingSocket, DataOutputStream out, BufferedReader in) throws IOException {
         initComponents();
         this.pingSocket = pingSocket;
         this.out = out;
@@ -116,9 +115,15 @@ public class VentanaJuego extends java.awt.Frame {
 
             GameState now = gState[current];
 
+        try
+        {
             //GET STATE
             
-            out.write("ESPERANDO RESPUESTA " + CRLF);
+            out.writeBytes("ESPERANDO RESPUESTA" + CRLF);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+        }
             try {
                 while (!in.ready()){}
             } catch (IOException ex) {
@@ -198,8 +203,14 @@ public class VentanaJuego extends java.awt.Frame {
             if (e.getKeyChar() == ' '){
 
                 gDown = !gDown;
-                out.write("GC " + gDown);
-                System.out.println("Send: GC " + gDown);                
+                try
+                {
+                    out.writeBytes("GC " + gDown + CRLF);
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("Send: GC " + gDown + CRLF);                
             }
         }
 

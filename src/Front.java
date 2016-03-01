@@ -2,6 +2,7 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -140,18 +141,20 @@ public class Front extends javax.swing.JFrame {
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         Socket pingSocket = null;
-        PrintWriter out = null;
+        DataOutputStream out = null;
         BufferedReader in = null;
         
         try {
             pingSocket = new Socket(adressText.getText(), 6321);
-            out = new PrintWriter(pingSocket.getOutputStream(), true);
+            out = new DataOutputStream(pingSocket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(pingSocket.getInputStream()));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "No se pudo conectar al servidor de Gravity Guy");
         }
-        out.println("HELLO\r\n");
+        
         try {
+            out.writeBytes("HELLO\r\n");
+            
             while (!in.ready()){
                 System.out.println("oli");
             }

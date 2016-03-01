@@ -270,7 +270,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         private void readBoth(GameState gs)
         {
             //Leer ambos aca y aja
-            for(int i = 0; i < in.length; i++)
+            for(int i = 0; i < userQuantity; i++)
             {
                 try
                 {
@@ -279,7 +279,6 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                         String command = in[i].readLine();
                         if(command.startsWith("GC"))
                         {
-                            //Cambiar gravedad aca
                             if(command.substring(2).trim().equals("true"))
                             {
                                 gs.gravityDown[i] = true;
@@ -288,7 +287,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                             {
                                 gs.gravityDown[i] = false;
                             }
-                            System.out.println(command + " de " + i);
+                            //System.out.println(command + " de " + i);
                              
                             
                         }
