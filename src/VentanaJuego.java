@@ -36,7 +36,9 @@ public class VentanaJuego extends java.awt.Frame {
     DataOutputStream out;
     BufferedReader in;
     Thread thread;
+    Thread thread2;
     Paintor paintor;
+    Updater updater;
     
 
     public VentanaJuego(Socket pingSocket, DataOutputStream out, BufferedReader in) throws IOException {
@@ -56,16 +58,13 @@ public class VentanaJuego extends java.awt.Frame {
         {
             gState[i] = new GameState();
         }
-        
-        out.writeBytes("REQUEST UPDATE" + CRLF);
-        
-        while(!(br = in.readLine()).equals("END STATE")){
-            gState[0].deSerializePiece(br);
-        }
                 
         paintor = new Paintor(this);
+        updater = new Updater();
         thread = new Thread(paintor);
         thread.start();
+        thread2 = new Thread(updater);
+        thread2.start();
     }
 
     /**
@@ -101,52 +100,9 @@ public class VentanaJuego extends java.awt.Frame {
     
     @Override
     public void paint(Graphics g) {
-            int previous = current;
-            if(current == 0)
-            {
-                current = 1;
-                
-            }
-            else
-            {
-                current = 0; 
-            }
-
             GameState now = gState[current];
-
-    
-            try {
-                while (!in.ready()){}
-            } catch (IOException ex) {
-                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            String br = null;
-            try {
-                while(!(br = in.readLine()).equals("END STATE")){
-                    now.deSerializePiece(br);
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            //Erase state
-            
-            now = gState[previous];
-            g.setColor(Color.white);
-            g.drawRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
-            //PARA ARRIBA
-            for (int i = 0; i < now.cuadradosTop.size(); i++) {
-                g.drawRect(now.cuadradosTop.get(i).x0, now.cuadradosTop.get(i).y0, now.cuadradosTop.get(i).width, now.cuadradosTop.get(i).height);
-            }
-
-            //PARA ABAJO
-            for (int i = 0; i < now.cuadradosBottom.size(); i++) {
-                g.drawRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
-            }
-            
-            //Paint State
-            
             now = gState[current];
+            
             g.setColor(Color.black);
             g.drawRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
             g.setColor(Color.red);
@@ -156,19 +112,6 @@ public class VentanaJuego extends java.awt.Frame {
             
             for (int i = 0; i < now.cuadradosBottom.size(); i++) {
                 g.drawRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
-            }
-            
-            //AQUI SE LLAMA LA GRAVEDAD
-            
-            /*PlayerManage playerm1 = new PlayerManage(jugador1,cuadrados2,cuadroActual,g);
-            Thread infThread = new Thread(playerm1);
-            infThread.start();*/
-            
-            
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
      } 
 
@@ -230,9 +173,39 @@ public class VentanaJuego extends java.awt.Frame {
                 {
                     Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                juego.paint(juego.getGraphics());
+                juego.repaint();
             }
         }
+    }
+    
+    private class Updater implements Runnable
+    {
+
+        @Override
+        public void run()
+        {
+            GameState now = gState[current];
+            while(true)
+            {
+                try
+                {
+                    while (!in.ready())
+                    {
+                    }
+
+                    String br = null;
+                    while (!(br = in.readLine()).equals("END STATE"))
+                    {
+                        now.deSerializePiece(br);
+                    }
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        }
+        
     }
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables

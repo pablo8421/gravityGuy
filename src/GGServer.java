@@ -315,27 +315,24 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             String serialized = gs.serializeState();
             
             sendBoth(serialized);
-            
-            sendBoth("END STATE" + CRLF);
+
             
             
             
             while(true)
             {
                 gs.updateState();
-                if (gs.FinalizarJuego()){
-                     JOptionPane.showMessageDialog(null, "Ha perdido.");
-                     return;
-                }
+//                if (gs.FinalizarJuego()){
+//                     JOptionPane.showMessageDialog(null, "Ha perdido.");
+//                     return;
+//                }
                 readBoth(gs);
                 
                 serialized = gs.serializeState();
-                sendBoth(serialized);
-                sendBoth("END STATE" + CRLF);
-                
+                sendBoth(serialized);                
                 try
                 {
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 } catch (InterruptedException ex)
                 {
                     Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
