@@ -135,8 +135,9 @@ public class GameState {
                 cuadroActual = i;
             }
         }
-        gravedadAbajo(cuadroActual);
+        gravedadArriba(cuadroActual);
         limitePared(cuadroActual+1); 
+        
             //g.setColor(Color.white);
         //g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
         //AQUI SE LLAMA LA GRAVEDAD
@@ -273,12 +274,23 @@ public class GameState {
             jugador1.y0 += 5;
         }
     }
+    public void gravedadArriba(int cuadroActual) {
+        int jugador1Y;
+        int pisoY;
+
+        Cuadrado piso = cuadradosTop.get(cuadroActual);
+        jugador1Y = jugador1.y0 + jugador1.height;
+        pisoY = piso.y0;
+        if (pisoY > jugador1Y) {
+            jugador1.y0 -= 5;
+        }
+    }
     public void limitePared(int cuadroActual) {
         int jugador1X;
         int jugador1Y;
         int paredX;
         int pisoY;
-        Cuadrado pared = cuadradosBottom.get(cuadroActual);
+        Cuadrado pared = cuadradosTop.get(cuadroActual);
         jugador1X = jugador1.x0 + jugador1.width;
         jugador1Y = jugador1.y0 + jugador1.height;
         pisoY = pared.y0;
