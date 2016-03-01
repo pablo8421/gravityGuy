@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -324,6 +325,10 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             while(true)
             {
                 gs.updateState();
+                if (gs.FinalizarJuego()){
+                     JOptionPane.showMessageDialog(null, "Ha perdido.");
+                     return;
+                }
                 readBoth(gs);
                 try
                 {
@@ -333,7 +338,6 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                     Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            
         }
     }
 }

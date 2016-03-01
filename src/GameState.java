@@ -347,7 +347,7 @@ public class GameState {
             jugador.x0 -= 10;
         }
         jugadorX = jugador.x0 + jugador.width;
-        if (jugadorX<0 ){
+        if (jugadorX<10 ){
             fin = true;
         }
         if(jugadorX < paredX && pisoY < jugadorY){
@@ -369,7 +369,7 @@ public class GameState {
             jugador.x0 -= 10;
         }
         jugadorX = jugador.x0 + jugador.width;
-        if (jugadorX<0 ){
+        if (jugadorX<10 ){
             fin = true;
         }
         if(jugadorX < paredX && pisoY > jugadorY){
