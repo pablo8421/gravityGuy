@@ -150,6 +150,7 @@ public class Front extends javax.swing.JFrame {
             in = new BufferedReader(new InputStreamReader(pingSocket.getInputStream()));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "No se pudo conectar al servidor de Gravity Guy");
+            return;
         }
         
         try {
