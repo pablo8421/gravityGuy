@@ -322,14 +322,14 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             while(true)
             {
                 gs.updateState();
-//                if (gs.FinalizarJuego()){
-//                     JOptionPane.showMessageDialog(null, "Ha perdido.");
-//                     return;
-//                }
                 readBoth(gs);
-                
                 serialized = gs.serializeState();
                 sendBoth(serialized);                
+                if (gs.FinalizarJuego()){
+                    //JOptionPane.showMessageDialog(null, "Ha perdido.");
+                    System.out.println("FIN");
+                    break;
+                }
                 /*try
                 {
                     Thread.sleep(15);
@@ -338,6 +338,8 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                     Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
                 }*/
             }
+            serialized = gs.serializeState();
+            sendBoth(serialized);   
         }
     }
 }

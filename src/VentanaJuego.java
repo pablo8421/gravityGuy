@@ -51,7 +51,7 @@ public class VentanaJuego extends java.awt.Frame {
         this.setFocusTraversalKeysEnabled(false);
         while (!in.ready()){}
         String br = null;
-        
+        gDown = true;
         current = 0;
         gState = new GameState[2];
         for(int i = 0; i < gState.length; i++)
@@ -100,6 +100,7 @@ public class VentanaJuego extends java.awt.Frame {
     
     @Override
     public void paint(Graphics g) {
+            super.paint(g);
             GameState now = gState[current];
             now = gState[current];
             
@@ -125,12 +126,6 @@ public class VentanaJuego extends java.awt.Frame {
         public void keyTyped(KeyEvent e)
         {
             //System.out.println("keyTyped");
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e)
-        {
-            
             if (e.getKeyChar() == ' ' || true){
 
                 gDown = !gDown;
@@ -143,6 +138,13 @@ public class VentanaJuego extends java.awt.Frame {
                 }
                 System.out.println("Send: GC " + gDown + CRLF);                
             }
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e)
+        {
+            
+            
         }
 
         @Override

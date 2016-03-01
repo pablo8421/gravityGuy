@@ -343,14 +343,14 @@ public class GameState {
         jugadorY = jugador.y0 + jugador.height;
         pisoY = pared.y0;
         paredX = pared.x0;
-        if (jugadorX >= paredX && pisoY < jugadorY) {
+        if (jugadorX >= paredX-1 && pisoY < jugadorY) {
             jugador.x0 -= 10;
         }
         jugadorX = jugador.x0 + jugador.width;
-        if (jugadorX<10 ){
+        if (jugadorX<=9 ){
             fin = true;
         }
-        if(jugadorX < paredX && pisoY < jugadorY){
+        if(jugadorX < paredX-1 && pisoY < jugadorY){
             jugador.x0 = paredX - jugador.width-1;
         }
     }
@@ -365,14 +365,14 @@ public class GameState {
         jugadorY = jugador.y0;
         pisoY = pared.y0 + pared.height;
         paredX = pared.x0;
-        if (jugadorX >= paredX && pisoY > jugadorY) {
+        if (jugadorX >= paredX-1 && pisoY > jugadorY) {
             jugador.x0 -= 10;
         }
         jugadorX = jugador.x0 + jugador.width;
-        if (jugadorX<10 ){
+        if (jugadorX<=9 ){
             fin = true;
         }
-        if(jugadorX < paredX && pisoY > jugadorY){
+        if(jugadorX < paredX-1 && pisoY > jugadorY){
             jugador.x0 = paredX - jugador.width-1;
         }
     }
