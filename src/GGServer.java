@@ -35,7 +35,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
     
     private static int puerto = 6321;
     
-    private static int userQuantity = 1;
+    private static int userQuantity = 2;
     
     private static ServerSocket welcomeSocket;
     private static Socket sockets[];
@@ -325,7 +325,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 readBoth(gs);
                 serialized = gs.serializeState();
                 sendBoth(serialized);                
-                if (gs.FinalizarJuego()){
+                if (gameEnded()){
                     //JOptionPane.showMessageDialog(null, "Ha perdido.");
                     System.out.println("FIN");
                     addLog("FIN");
@@ -341,6 +341,11 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             }
             serialized = gs.serializeState();
             sendBoth(serialized);   
+        }
+
+        private boolean gameEnded()
+        {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
 }

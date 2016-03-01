@@ -409,8 +409,4 @@ public class GameState {
             jugador.x0 = paredX - jugador.width-1;
         }
     }
-    
-    public boolean FinalizarJuego(){
-        return jugador1.x0<=-5;
-    }
 }
