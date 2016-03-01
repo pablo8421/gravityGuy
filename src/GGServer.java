@@ -330,13 +330,13 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 
                 serialized = gs.serializeState();
                 sendBoth(serialized);                
-                try
+                /*try
                 {
-                    Thread.sleep(10);
+                    Thread.sleep(15);
                 } catch (InterruptedException ex)
                 {
                     Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
             }
         }
     }
