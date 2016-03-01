@@ -187,7 +187,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
 
     private static void addLog(String text)
     {
-        verbose.setText(verbose.getText() + text + "\n");
+        verbose.append(text + "\n");
         
     }
     
@@ -265,7 +265,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 }
             }
             
-            //addLog(message);
+            addLog(message);
         }
         
         private void readBoth(GameState gs)
@@ -328,19 +328,19 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 if (gs.FinalizarJuego()){
                     //JOptionPane.showMessageDialog(null, "Ha perdido.");
                     System.out.println("FIN");
-                    //addLog("FIN");
-                    //break;
+                    addLog("FIN");
+                    break;
                 }
-//                try
-//                {
-//                    Thread.sleep(50);
-//                } catch (InterruptedException ex)
-//                {
-//                    Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
-//                }
+                try
+                {
+                    Thread.sleep(0);
+                } catch (InterruptedException ex)
+                {
+                    Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-//            serialized = gs.serializeState();
-//            sendBoth(serialized);   
+            serialized = gs.serializeState();
+            sendBoth(serialized);   
         }
     }
 }
