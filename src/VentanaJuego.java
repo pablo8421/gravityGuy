@@ -57,6 +57,8 @@ public class VentanaJuego extends java.awt.Frame {
             gState[i] = new GameState();
         }
         
+        out.writeBytes("REQUEST UPDATE" + CRLF);
+        
         while(!(br = in.readLine()).equals("END STATE")){
             gState[0].deSerializePiece(br);
         }
@@ -226,6 +228,7 @@ public class VentanaJuego extends java.awt.Frame {
             {
                 try
                 {
+                    out.writeBytes("REQUEST UPDATE" + CRLF);
                     while(!juego.in.ready()){}
                 } catch (IOException ex)
                 {

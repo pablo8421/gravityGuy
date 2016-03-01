@@ -291,6 +291,13 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                              
                             
                         }
+                        else if(command.startsWith("REQUEST"))
+                        {
+                            String serialized = gs.serializeState();
+                            out[i].writeBytes(serialized);
+                            out[i].writeBytes("END STATE" + CRLF);
+                            System.out.println("FRAME");
+                        }
                     }
                 } catch (IOException ex)
                 {
@@ -318,10 +325,14 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             while(true)
             {
                 gs.updateState();
-                serialized = gs.serializeState();
-                sendBoth(serialized);
-                sendBoth("END STATE");
                 readBoth(gs);
+                try
+                {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex)
+                {
+                    Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
         }
