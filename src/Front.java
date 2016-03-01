@@ -154,10 +154,7 @@ public class Front extends javax.swing.JFrame {
         
         try {
             out.writeBytes("HELLO\r\n");
-            
-            while (!in.ready()){
-                System.out.println("oli");
-            }
+            while (!in.ready()){}
         } catch (IOException ex) {
             Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -166,15 +166,6 @@ public class GameState {
             gravedadArriba(cuadroActual);
             limiteParedTop(cuadroActual+1); 
         }*/
-       
-        /*try
-        {
-            Thread.sleep(50);
-        } catch (InterruptedException ex)
-        {
-            Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-
     }
 
     public String serializeState()
