@@ -30,8 +30,10 @@ public class VentanaJuego extends java.awt.Frame {
     GameState gState[];
     int current;
     
+    public final static String CRLF = "\r\n";
+    
     Socket pingSocket;
-    static char c;
+    boolean gDown;
     PrintWriter out;
     BufferedReader in;
     Thread thread;
@@ -116,9 +118,7 @@ public class VentanaJuego extends java.awt.Frame {
 
             //GET STATE
             
-            out.write("ESPERANDO RESPUESTA "+c+"\r\n");
-            if (c =='1')
-                c = '0';
+            out.write("ESPERANDO RESPUESTA " + CRLF);
             try {
                 while (!in.ready()){}
             } catch (IOException ex) {
@@ -179,7 +179,7 @@ public class VentanaJuego extends java.awt.Frame {
             }
      } 
 
-    private static class myKeyListener implements KeyListener {
+    private class myKeyListener implements KeyListener {
 
         public myKeyListener()
         {
@@ -196,11 +196,10 @@ public class VentanaJuego extends java.awt.Frame {
         {
             
             if (e.getKeyChar() == ' '){
-                System.out.println("keyRelegdfg");
-                c = '1';
-            }
-            else{
-                c = '0';
+
+                gDown = !gDown;
+                out.write("GC " + gDown);
+                System.out.println("Send: GC " + gDown);                
             }
         }
 

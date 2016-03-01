@@ -251,7 +251,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             }
         }
         
-        private static void sendBoth(String message)
+        private void sendBoth(String message)
         {
             for(int i = 0; i < userQuantity; i++)
             {
@@ -265,6 +265,39 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             }
             
             addLog(message);
+        }
+        
+        private void readBoth(GameState gs)
+        {
+            //Leer ambos aca y aja
+            for(int i = 0; i < in.length; i++)
+            {
+                try
+                {
+                    while(in[i].ready())
+                    {
+                        String command = in[i].readLine();
+                        if(command.startsWith("GC"))
+                        {
+                            //Cambiar gravedad aca
+                            if(command.substring(2).trim().equals("true"))
+                            {
+                                gs.gravityDown[i] = true;
+                            }
+                            else
+                            {
+                                gs.gravityDown[i] = false;
+                            }
+                            System.out.println(command + " de " + i);
+                             
+                            
+                        }
+                    }
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         
         public void startGame()
@@ -289,6 +322,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 serialized = gs.serializeState();
                 sendBoth(serialized);
                 sendBoth("END STATE");
+                readBoth(gs);
             }
             
         }

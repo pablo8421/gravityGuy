@@ -17,6 +17,7 @@ public class GameState {
     ArrayList<Cuadrado> cuadradosTop;
     Cuadrado jugador1;
     Cuadrado jugador2;
+    boolean gravityDown[];
 
     public final static String CRLF = "\r\n";
     
@@ -28,6 +29,11 @@ public class GameState {
         cuadradosTop = new ArrayList();
         jugador1 = new Cuadrado(320, 320, 100, 100);
         jugador2 = new Cuadrado(320, 320, 100, 100);
+        gravityDown = new boolean[2];
+        for(int i =0; i < gravityDown.length; i++)
+        {
+            gravityDown[i] = true;
+        }
         width = 640;
         height = 640;
     }
@@ -187,6 +193,9 @@ public class GameState {
                     + "]" + CRLF;
         }
 
+        data += "G1 " + gravityDown[0] + CRLF;
+        data += "G2 " + gravityDown[1] + CRLF;
+
         return data;
     }
     
@@ -252,6 +261,28 @@ public class GameState {
                 throw new IndexOutOfBoundsException();
             }
         }
+        else if(piece.startsWith("G"))
+        {
+            int index;
+            if(piece.startsWith("G1"))
+            {
+                index = 0;
+            }
+            else
+            {
+                index = 1;
+            }
+            
+            if(piece.substring(2).trim().equals("true"))
+            {
+                gravityDown[index] = true;
+            }
+            else
+            {
+                gravityDown[index] = false;
+            }
+        }
+        
     }
     public void gravedadAbajo(int cuadroActual) {
         int jugador1Y;
