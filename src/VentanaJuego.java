@@ -165,9 +165,6 @@ public class VentanaJuego extends java.awt.Frame {
             
             for (int i = 0; i < now.cuadradosBottom.size(); i++) {
                 g.drawRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
-                /*if(cuadrados2.get(i).x0 <= jugador1.x0 && (cuadrados2.get(i).x0 + cuadrados2.get(i).width) >= jugador1.x0){
-                    cuadroActual = i;
-                }*/
             }
             
             //AQUI SE LLAMA LA GRAVEDAD
