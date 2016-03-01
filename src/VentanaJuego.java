@@ -225,7 +225,6 @@ public class VentanaJuego extends java.awt.Frame {
             {
                 try
                 {
-                    out.writeBytes("REQUEST UPDATE" + CRLF);
                     while(!juego.in.ready()){}
                 } catch (IOException ex)
                 {
