@@ -126,7 +126,7 @@ public class GameState {
             }
         }
         gravedadAbajo(cuadroActual);
-        limitePared(cuadroActual+1); 
+        limiteParedBottom(cuadroActual+1); 
         
             //g.setColor(Color.white);
         //g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
@@ -272,15 +272,20 @@ public class GameState {
     public void gravedadArriba(int cuadroActual) {
         int jugador1Y;
         int pisoY;
-
+        boolean bandera = false;
         Cuadrado piso = cuadradosTop.get(cuadroActual);
-        jugador1Y = jugador1.y0 + jugador1.height;
-        pisoY = piso.y0;
-        if (pisoY > jugador1Y) {
+        jugador1Y = jugador1.y0;
+        pisoY = piso.y0 + piso.height;
+        if (pisoY < jugador1Y) {
             jugador1.y0 -= 5;
+            bandera = true;
+        }
+        jugador1Y = jugador1.y0 + jugador1.height;
+        if (pisoY >= jugador1Y && bandera) {
+            jugador1.y0 = pisoY-jugador1.height+1;
         }
     }
-    public void limitePared(int cuadroActual) {
+    public void limiteParedBottom(int cuadroActual) {
         int jugador1X;
         int jugador1Y;
         int paredX;
@@ -288,6 +293,27 @@ public class GameState {
         boolean bandera = true;
         
         Cuadrado pared = cuadradosBottom.get(cuadroActual);
+        jugador1X = jugador1.x0 + jugador1.width;
+        jugador1Y = jugador1.y0 + jugador1.height;
+        pisoY = pared.y0;
+        paredX = pared.x0;
+        if (jugador1X >= paredX && pisoY < jugador1Y) {
+            jugador1.x0 -= 10;
+            
+        }
+        jugador1X = jugador1.x0 + jugador1.width;
+        if(jugador1X < paredX && pisoY < jugador1Y){
+            jugador1.x0 = paredX - jugador1.width-1;
+        }
+    }
+    public void limiteParedTop(int cuadroActual) {
+        int jugador1X;
+        int jugador1Y;
+        int paredX;
+        int pisoY;
+        boolean bandera = true;
+        
+        Cuadrado pared = cuadradosTop.get(cuadroActual);
         jugador1X = jugador1.x0 + jugador1.width;
         jugador1Y = jugador1.y0 + jugador1.height;
         pisoY = pared.y0;
