@@ -278,7 +278,7 @@ public class GameState {
         int jugador1Y;
         int paredX;
         int pisoY;
-        Cuadrado pared = cuadradosTop.get(cuadroActual);
+        Cuadrado pared = cuadradosBottom.get(cuadroActual);
         jugador1X = jugador1.x0 + jugador1.width;
         jugador1Y = jugador1.y0 + jugador1.height;
         pisoY = pared.y0;
