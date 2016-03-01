@@ -88,7 +88,7 @@ public class GameState {
         }
         if ((cuadradosBottom.get(cuadradosBottom.size() - 1).x0 + cuadradosBottom.get(cuadradosBottom.size() - 1).width) <= width)
         {
-            randomx = (int) (Math.random() * (150 - 0)) + 10;
+            randomx = 120;
             randomy = (int) (Math.random() * (150 - 0)) + 10;
                 //g.setColor(Color.red);
             //g.drawRect(x,0,randomx,randomy);
@@ -118,7 +118,7 @@ public class GameState {
         }
         if ((cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width) <= width)
         {
-            randomx = (int) (Math.random() * (150 - 0)) + 10;
+            randomx = 120;
             randomy = (int) (Math.random() * (150 - 0)) + 10;
                 //g.setColor(Color.red);
             //g.drawRect(x,0,randomx,randomy);
@@ -135,6 +135,8 @@ public class GameState {
                 cuadroActual = i;
             }
         }
+        gravedadAbajo(cuadroActual);
+        limitePared(cuadroActual+1); 
             //g.setColor(Color.white);
         //g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
         //AQUI SE LLAMA LA GRAVEDAD
@@ -258,4 +260,33 @@ public class GameState {
             }
         }
     }
+    public void gravedadAbajo(int cuadroActual) {
+        int jugador1Y;
+        int pisoY;
+
+        Cuadrado piso = cuadradosTop.get(cuadroActual);
+        jugador1Y = jugador1.y0 + jugador1.height;
+        pisoY = piso.y0;
+        if (pisoY > jugador1Y) {
+            jugador1.y0 += 5;
+        }
+    }
+    public void limitePared(int cuadroActual) {
+        int jugador1X;
+        int jugador1Y;
+        int paredX;
+        int pisoY;
+        Cuadrado pared = cuadradosTop.get(cuadroActual);
+        jugador1X = jugador1.x0 + jugador1.width;
+        jugador1Y = jugador1.y0 + jugador1.height;
+        pisoY = pared.y0;
+        paredX = pared.x0;
+        if (jugador1X == paredX && pisoY < jugador1Y) {
+            jugador1.x0 -= 10;
+        }
+        else if(jugador1X > paredX && pisoY < jugador1Y){
+            jugador1.x0 = paredX - jugador1.width;
+        }
+    }
+    
 }
