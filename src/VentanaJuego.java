@@ -115,15 +115,7 @@ public class VentanaJuego extends java.awt.Frame {
 
             GameState now = gState[current];
 
-        try
-        {
-            //GET STATE
-            
-            out.writeBytes("ESPERANDO RESPUESTA" + CRLF);
-        } catch (IOException ex)
-        {
-            Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    
             try {
                 while (!in.ready()){}
             } catch (IOException ex) {
@@ -197,7 +189,7 @@ public class VentanaJuego extends java.awt.Frame {
         public void keyPressed(KeyEvent e)
         {
             
-            if (e.getKeyChar() == ' '){
+            if (e.getKeyChar() == ' ' || true){
 
                 gDown = !gDown;
                 try
@@ -214,7 +206,7 @@ public class VentanaJuego extends java.awt.Frame {
         @Override
         public void keyReleased(KeyEvent e)
         {
-            //System.out.println("keyReleased");
+            
         }
     }
 

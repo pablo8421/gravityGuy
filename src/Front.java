@@ -169,8 +169,6 @@ public class Front extends javax.swing.JFrame {
         }
         
         if (resultado.contains("OK")){
-            JOptionPane.showMessageDialog(null, "OK");
-            
             try {
                 jLabel1.setVisible(true);
                 while (!in.ready()){}
