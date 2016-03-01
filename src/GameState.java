@@ -53,7 +53,7 @@ public class GameState {
         while (x < width)
         {
             randomx = 120;
-            randomy = (int) (Math.random() * (150 - 0)) + 10;
+            randomy = (int) (Math.random() * (150 - 0)) + 30;
             x = xAnterior;
             cuadrado = new Cuadrado(x, 0, randomx, randomy);
             cuadradosTop.add(cuadrado);
@@ -66,7 +66,7 @@ public class GameState {
         while (x < width)
         {
             randomx = 120;
-            randomy = (int) (Math.random() * (150 - 0)) + 10;
+            randomy = (int) (Math.random() * (150 - 0)) + 30;
             x = xAnterior;
             cuadrado = new Cuadrado(x, height - randomy, randomx, randomy);
             cuadradosBottom.add(cuadrado);
@@ -100,7 +100,7 @@ public class GameState {
         if ((cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width) <= width)
         {
             randomx = 120;
-            randomy = (int) (Math.random() * (150 - 0)) + 10;
+            randomy = (int) (Math.random() * (150 - 0)) + 30;
             xAnterior = cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width;
             cuadrado = new Cuadrado(xAnterior, 0, randomx, randomy);
             cuadradosTop.add(cuadrado);
@@ -118,7 +118,7 @@ public class GameState {
         if ((cuadradosBottom.get(cuadradosBottom.size() - 1).x0 + cuadradosBottom.get(cuadradosBottom.size() - 1).width) <= width)
         {
             randomx = 120;
-            randomy = (int) (Math.random() * (150 - 0)) + 10;
+            randomy = (int) (Math.random() * (150 - 0)) + 30;
             xAnterior = cuadradosBottom.get(cuadradosBottom.size() - 1).x0 + cuadradosBottom.get(cuadradosBottom.size() - 1).width;
             cuadrado = new Cuadrado(xAnterior, height - randomy, randomx, randomy);
             cuadradosBottom.add(cuadrado);
@@ -343,14 +343,11 @@ public class GameState {
         jugadorY = jugador.y0 + jugador.height;
         pisoY = pared.y0;
         paredX = pared.x0;
-        if (jugadorX >= paredX-1 && pisoY < jugadorY) {
+        if (jugadorX >= paredX && pisoY < jugadorY) {
             jugador.x0 -= 10;
         }
         jugadorX = jugador.x0 + jugador.width;
-        if (jugadorX<=9 ){
-            fin = true;
-        }
-        if(jugadorX < paredX-1 && pisoY < jugadorY){
+        if(jugadorX < paredX && pisoY < jugadorY){
             jugador.x0 = paredX - jugador.width-1;
         }
     }
@@ -365,19 +362,16 @@ public class GameState {
         jugadorY = jugador.y0;
         pisoY = pared.y0 + pared.height;
         paredX = pared.x0;
-        if (jugadorX >= paredX-1 && pisoY > jugadorY) {
+        if (jugadorX >= paredX && pisoY > jugadorY) {
             jugador.x0 -= 10;
         }
         jugadorX = jugador.x0 + jugador.width;
-        if (jugadorX<=9 ){
-            fin = true;
-        }
-        if(jugadorX < paredX-1 && pisoY > jugadorY){
+        if(jugadorX < paredX && pisoY > jugadorY){
             jugador.x0 = paredX - jugador.width-1;
         }
     }
     
     public boolean FinalizarJuego(){
-        return fin;
+        return jugador1.x0<=-5;
     }
 }

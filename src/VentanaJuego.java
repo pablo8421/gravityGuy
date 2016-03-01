@@ -105,14 +105,14 @@ public class VentanaJuego extends java.awt.Frame {
             now = gState[current];
             
             g.setColor(Color.black);
-            g.drawRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
+            g.fillRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
             g.setColor(Color.red);
             for (int i = 0; i < now.cuadradosTop.size(); i++) {
-                g.drawRect(now.cuadradosTop.get(i).x0, now.cuadradosTop.get(i).y0, now.cuadradosTop.get(i).width, now.cuadradosTop.get(i).height);
+                g.fillRect(now.cuadradosTop.get(i).x0, now.cuadradosTop.get(i).y0, now.cuadradosTop.get(i).width, now.cuadradosTop.get(i).height);
             }
             
             for (int i = 0; i < now.cuadradosBottom.size(); i++) {
-                g.drawRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
+                g.fillRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
             }
      } 
 
@@ -125,7 +125,6 @@ public class VentanaJuego extends java.awt.Frame {
         @Override
         public void keyTyped(KeyEvent e)
         {
-            //System.out.println("keyTyped");
             if (e.getKeyChar() == ' ' || true){
 
                 gDown = !gDown;
@@ -200,6 +199,7 @@ public class VentanaJuego extends java.awt.Frame {
                     {
                         now.deSerializePiece(br);
                     }
+                    //out.writeBytes("REQUEST UPDATE"+CRLF);
                 } catch (IOException ex)
                 {
                     Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
