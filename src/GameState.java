@@ -186,7 +186,7 @@ public class GameState {
         for (int i = 0; i < cuadradosBottom.size(); i++)
         {
             Cuadrado cuadrado = cuadradosBottom.get(i);
-            data += "BT" + i + " ["
+            data += "CB" + i + " ["
                     + cuadrado.x0 + ","
                     + cuadrado.y0 + ","
                     + cuadrado.width + ","
@@ -199,6 +199,8 @@ public class GameState {
     
     public void deSerializePiece(String piece)
     {        
+        
+        
         if(piece.startsWith("J"))
         {
             Cuadrado player;
@@ -220,15 +222,15 @@ public class GameState {
             player.height = Integer.parseInt(values[3]);
             
         }
-        else
+        else if(piece.startsWith("C"))
         {
             ArrayList<Cuadrado> list;
-            if (piece.startsWith("BT"))
-            {
-                list = cuadradosBottom;
-            } else
+            if (piece.startsWith("CT"))
             {
                 list = cuadradosTop;
+            } else
+            {
+                list = cuadradosBottom;
             }
             
             int index = Integer.parseInt(piece.substring(2,piece.indexOf("[")).trim());

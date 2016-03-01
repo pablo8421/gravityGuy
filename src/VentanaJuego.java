@@ -26,10 +26,10 @@ public class VentanaJuego extends java.awt.Frame {
     /**
      * Creates new form Prueba
      */
-    ArrayList<Cuadrado> cuadrados;
-    ArrayList<Cuadrado> cuadrados2;
-    Cuadrado jugador1=new Cuadrado(320, 320, 100, 100);;
-    Cuadrado jugador2;
+    
+    GameState gState[];
+    int current;
+    
     Socket pingSocket;
     static char c;
     PrintWriter out;
@@ -48,10 +48,18 @@ public class VentanaJuego extends java.awt.Frame {
         this.setFocusTraversalKeysEnabled(false);
         while (!in.ready()){}
         String br = null;
-        while(!(br = in.readLine()).equals("END STATE")){
-            deSerializePiece(br);
+        
+        current = 0;
+        gState = new GameState[2];
+        for(int i = 0; i < gState.length; i++)
+        {
+            gState[i] = new GameState();
         }
         
+        while(!(br = in.readLine()).equals("END STATE")){
+            gState[0].deSerializePiece(br);
+        }
+                
         paintor = new Paintor(this);
         thread = new Thread(paintor);
         thread.start();
@@ -90,95 +98,24 @@ public class VentanaJuego extends java.awt.Frame {
     /**
      * @param args the command line arguments
      */
-
-    public void deSerializePiece(String piece)
-    {   
-        if(piece.equals("")){}
-        
-        else if(piece.startsWith("J"))
-        {
-            Cuadrado player;
-            if (piece.startsWith("J1"))
-            {
-                if (jugador1 == null)
-                    jugador1 = new Cuadrado();
-                player = jugador1;
-            } else
-            {
-                if (jugador2 == null)
-                    jugador2 = new Cuadrado();
-                player = jugador2;
-            }
-
-            piece = piece.substring(piece.indexOf("[") + 1);
-            piece = piece.substring(0, piece.indexOf("]"));
-            String values[] = piece.split(",");
-
-            player.x0 = Integer.parseInt(values[0]);
-            player.y0 = Integer.parseInt(values[1]);
-            player.width = Integer.parseInt(values[2]);
-            player.height = Integer.parseInt(values[3]);
-            
-        }
-        else
-        {
-            ArrayList<Cuadrado> list;
-            if (piece.startsWith("BT"))
-            {
-                if (cuadrados2 == null)
-                    cuadrados2 = new ArrayList<>();
-                list = cuadrados2;
-            } else
-            {
-                if (cuadrados == null)
-                    cuadrados = new ArrayList<>();
-                list = cuadrados;
-            }
-            
-            int index = Integer.parseInt(piece.substring(2,piece.indexOf("[")).trim());
-            
-            piece = piece.substring(piece.indexOf("[") + 1);
-            piece = piece.substring(0, piece.indexOf("]"));
-            String values[] = piece.split(",");
-            
-            Cuadrado cuadrado = new Cuadrado(
-                Integer.parseInt(values[0]), //x0
-                Integer.parseInt(values[1]), //y0
-                Integer.parseInt(values[2]), //width
-                Integer.parseInt(values[3])  //height
-            );
-            if(index < list.size())
-            {
-                list.set(index, cuadrado);
-            }
-            else if(index == list.size())
-            {
-                list.add(cuadrado);
-            }
-            else
-            {
-                //wtf?
-                throw new IndexOutOfBoundsException();
-            }
-        }
-    }
     
     @Override
     public void paint(Graphics g) {
+            int previous = current;
+            if(current == 0)
+            {
+                current = 1;
+                
+            }
+            else
+            {
+                current = 0; 
+            }
+
+            GameState now = gState[current];
+
+            //GET STATE
             
-            g.drawRect(jugador1.x0, jugador1.y0, jugador1.width, jugador1.height);
-            //PARA ARRIBA
-            for (int i = 0; i < cuadrados.size(); i++) {
-                g.setColor(Color.white);
-                g.drawRect(cuadrados.get(i).x0, cuadrados.get(i).y0, cuadrados.get(i).width, cuadrados.get(i).height);
-            }
-
-            //PARA ABAJO
-            for (int i = 0; i < cuadrados2.size(); i++) {
-                g.setColor(Color.white);
-                g.drawRect(cuadrados2.get(i).x0, cuadrados2.get(i).y0, cuadrados2.get(i).width, cuadrados2.get(i).height);
-            }
-
             out.write("ESPERANDO RESPUESTA "+c+"\r\n");
             if (c =='1')
                 c = '0';
@@ -190,20 +127,41 @@ public class VentanaJuego extends java.awt.Frame {
             String br = null;
             try {
                 while(!(br = in.readLine()).equals("END STATE")){
-                    deSerializePiece(br);
+                    now.deSerializePiece(br);
                 }
             } catch (IOException ex) {
                 Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
-                
-            for (int i = 0; i < cuadrados.size(); i++) {
-                g.setColor(Color.red);
-                g.drawRect(cuadrados.get(i).x0, cuadrados.get(i).y0, cuadrados.get(i).width, cuadrados.get(i).height);
+
+            //Erase state
+            
+            now = gState[previous];
+            
+            g.drawRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
+            //PARA ARRIBA
+            for (int i = 0; i < now.cuadradosTop.size(); i++) {
+                g.setColor(Color.white);
+                g.drawRect(now.cuadradosTop.get(i).x0, now.cuadradosTop.get(i).y0, now.cuadradosTop.get(i).width, now.cuadradosTop.get(i).height);
+            }
+
+            //PARA ABAJO
+            for (int i = 0; i < now.cuadradosBottom.size(); i++) {
+                g.setColor(Color.white);
+                g.drawRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
             }
             
-            for (int i = 0; i < cuadrados2.size(); i++) {
+            //Paint State
+            
+            now = gState[current];
+            
+            for (int i = 0; i < now.cuadradosTop.size(); i++) {
                 g.setColor(Color.red);
-                g.drawRect(cuadrados2.get(i).x0, cuadrados2.get(i).y0, cuadrados2.get(i).width, cuadrados2.get(i).height);
+                g.drawRect(now.cuadradosTop.get(i).x0, now.cuadradosTop.get(i).y0, now.cuadradosTop.get(i).width, now.cuadradosTop.get(i).height);
+            }
+            
+            for (int i = 0; i < now.cuadradosBottom.size(); i++) {
+                g.setColor(Color.red);
+                g.drawRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
                 /*if(cuadrados2.get(i).x0 <= jugador1.x0 && (cuadrados2.get(i).x0 + cuadrados2.get(i).width) >= jugador1.x0){
                     cuadroActual = i;
                 }*/
@@ -269,7 +227,14 @@ public class VentanaJuego extends java.awt.Frame {
         {
             while(true)
             {
-                juego.repaint();
+                try
+                {
+                    while(!juego.in.ready()){}
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                juego.paint(juego.getGraphics());
             }
         }
     }
