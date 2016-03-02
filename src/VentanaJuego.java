@@ -109,8 +109,6 @@ public class VentanaJuego extends java.awt.Frame {
             super.paint(g);
             GameState now = gState;
             
-            //g.setColor(Color.black);
-            //g.fillRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
             g.drawImage(myFree[count], now.jugador1.x0, now.jugador1.y0, this);
             g.drawImage(otherFree[count], now.jugador2.x0, now.jugador2.y0, this);
             count++;

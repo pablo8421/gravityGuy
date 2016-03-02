@@ -28,8 +28,8 @@ public class GameState {
     {
         cuadradosBottom = new ArrayList();
         cuadradosTop = new ArrayList();
-        jugador1 = new Cuadrado(320, 320, 50, 50);
-        jugador2 = new Cuadrado(320, 520, 50, 50);
+        jugador1 = new Cuadrado(320, 300, 50, 50);
+        jugador2 = new Cuadrado(320, 400, 50, 50);
         gravityDown = new boolean[2];
         victoria = new boolean[2];
         fin = false;
