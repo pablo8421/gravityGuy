@@ -35,7 +35,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
     
     private static int puerto = 6321;
     
-    private static int userQuantity = 1;
+    private static int userQuantity = 2;
     
     private static ServerSocket welcomeSocket;
     private static Socket sockets[];
@@ -333,7 +333,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                         break;
                     }
                     
-                    Thread.sleep(0);
+                    Thread.sleep(10);
                 } catch (Exception ex)
                 {
                     Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);

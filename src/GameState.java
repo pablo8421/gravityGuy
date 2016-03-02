@@ -170,6 +170,13 @@ public class GameState {
                     cuadroActual = i;
                 }
             }
+            for (int i = 0; i < cuadradosTop.size(); i++)
+            {
+                if (cuadradosTop.get(i).x0 <= jugador2.x0 && (cuadradosTop.get(i).x0 + cuadradosTop.get(i).width) >= jugador2.x0)
+                {
+                    cuadroTop = i;
+                }
+            }
             gravedadAbajo(cuadroActual,jugador2);
             limiteParedBottom(cuadroActual+1,jugador2); 
         }
@@ -179,6 +186,13 @@ public class GameState {
                 if (cuadradosTop.get(i).x0 <= jugador2.x0 && (cuadradosTop.get(i).x0 + cuadradosTop.get(i).width) >= jugador2.x0)
                 {
                     cuadroActual = i;
+                }
+            }
+            for (int i = 0; i < cuadradosBottom.size(); i++)
+            {
+                if (cuadradosBottom.get(i).x0 <= jugador2.x0 && (cuadradosBottom.get(i).x0 + cuadradosBottom.get(i).width) >= jugador2.x0)
+                {
+                    cuadroBottom = i;
                 }
             }
             gravedadArriba(cuadroActual,jugador2);
