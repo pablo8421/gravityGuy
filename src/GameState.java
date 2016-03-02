@@ -13,8 +13,9 @@ import java.util.logging.Logger;
  */
 public class GameState {
 
-    ArrayList<Cuadrado> cuadradosBottom;
+    ArrayList<Cuadrado> cuadradosBot;
     ArrayList<Cuadrado> cuadradosTop;
+    ArrayList<Cuadrado> cuadradosMid;
     Cuadrado jugador1;
     Cuadrado jugador2;
     int cuadroTop, cuadroBottom;
@@ -26,8 +27,9 @@ public class GameState {
 
     public GameState()
     {
-        cuadradosBottom = new ArrayList();
+        cuadradosBot = new ArrayList();
         cuadradosTop = new ArrayList();
+        cuadradosMid = new ArrayList();
         jugador1 = new Cuadrado(320, 300, 50, 50);
         jugador2 = new Cuadrado(320, 400, 50, 50);
         gravityDown = new boolean[2];
@@ -56,7 +58,7 @@ public class GameState {
         while (x < width)
         {
             randomx = 120;
-            randomy = (int) (Math.random() * (150 - 0)) + 30;
+            randomy = (int) (Math.random() * (150)) + 30;
             x = xAnterior;
             cuadrado = new Cuadrado(x, 0, randomx, randomy);
             cuadradosTop.add(cuadrado);
@@ -69,10 +71,20 @@ public class GameState {
         while (x < width)
         {
             randomx = 120;
-            randomy = (int) (Math.random() * (150 - 0)) + 30;
+            randomy = (int) (Math.random() * (150)) + 30;
             x = xAnterior;
             cuadrado = new Cuadrado(x, height - randomy, randomx, randomy);
-            cuadradosBottom.add(cuadrado);
+            cuadradosBot.add(cuadrado);
+            xAnterior = xAnterior + randomx;
+        }
+        x = width - 60;
+        while (x < width)
+        {
+            randomx = (int) (Math.random() * (150)) + 60;
+            randomy = (int) (Math.random() * (490 - 150)) + 150;
+            x = xAnterior;
+            cuadrado = new Cuadrado(x, height - randomy, randomx, randomy);
+            cuadradosMid.add(cuadrado);
             xAnterior = xAnterior + randomx;
         }
     }
@@ -104,6 +116,8 @@ public class GameState {
             cuadradosTop.remove(0);
         }
         
+        
+        
         //Generando cuadros en la parte de arriba del mundo
         if ((cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width) <= width)
         {
@@ -114,28 +128,47 @@ public class GameState {
             cuadradosTop.add(cuadrado);
         }
         
+        //Corriendo la parte del mid del mundo
+        for (int i = 0; i < cuadradosMid.size(); i++)
+        {
+            cuadradosMid.get(i).x0 -= 10;
+        }
+
+        //Eliminando los cuadros de la parte del mid del juego cuando ya no se ven
+        if ((cuadradosMid.get(0).x0 + cuadradosMid.get(0).width) <= 0)
+        {
+            cuadradosMid.remove(0);
+        }
+        if ((cuadradosMid.get(cuadradosMid.size() - 1).x0 + cuadradosMid.get(cuadradosMid.size() - 1).width) <= width)
+        {
+            randomx = (int) (Math.random() * (150)) + 60;
+            randomy = (int) (Math.random() * (490 - 150)) + 150;
+            xAnterior = cuadradosMid.get(cuadradosMid.size() - 1).x0 + cuadradosMid.get(cuadradosMid.size() - 1).width;
+            cuadrado = new Cuadrado(xAnterior, height - randomy, randomx, randomy);
+            cuadradosMid.add(cuadrado);
+        }
         //PARA ABAJO
-        for (int i = 0; i < cuadradosBottom.size(); i++)
+        for (int i = 0; i < cuadradosBot.size(); i++)
         {
-            cuadradosBottom.get(i).x0 -= 10;
+            cuadradosBot.get(i).x0 -= 10;
         }
-        if ((cuadradosBottom.get(0).x0 + cuadradosBottom.get(0).width) <= 0)
+        if ((cuadradosBot.get(0).x0 + cuadradosBot.get(0).width) <= 0)
         {
-            cuadradosBottom.remove(0);
+            cuadradosBot.remove(0);
         }
-        if ((cuadradosBottom.get(cuadradosBottom.size() - 1).x0 + cuadradosBottom.get(cuadradosBottom.size() - 1).width) <= width)
+        if ((cuadradosBot.get(cuadradosBot.size() - 1).x0 + cuadradosBot.get(cuadradosBot.size() - 1).width) <= width)
         {
             randomx = 120;
             randomy = (int) (Math.random() * (150 - 0)) + 30;
-            xAnterior = cuadradosBottom.get(cuadradosBottom.size() - 1).x0 + cuadradosBottom.get(cuadradosBottom.size() - 1).width;
+            xAnterior = cuadradosBot.get(cuadradosBot.size() - 1).x0 + cuadradosBot.get(cuadradosBot.size() - 1).width;
             cuadrado = new Cuadrado(xAnterior, height - randomy, randomx, randomy);
-            cuadradosBottom.add(cuadrado);
+            cuadradosBot.add(cuadrado);
         }
         
         if (gravityDown[0]){
-            for (int i = 0; i < cuadradosBottom.size(); i++)
+            for (int i = 0; i < cuadradosBot.size(); i++)
             {
-                if (cuadradosBottom.get(i).x0 <= jugador1.x0 && (cuadradosBottom.get(i).x0 + cuadradosBottom.get(i).width) >= jugador1.x0)
+                if (cuadradosBot.get(i).x0 <= jugador1.x0 && (cuadradosBot.get(i).x0 + cuadradosBot.get(i).width) >= jugador1.x0)
                 {
                     cuadroActual = i;
                 }
@@ -158,9 +191,9 @@ public class GameState {
                     cuadroActual = i;
                 }
             }
-            for (int i = 0; i < cuadradosBottom.size(); i++)
+            for (int i = 0; i < cuadradosBot.size(); i++)
             {
-                if (cuadradosBottom.get(i).x0 <= jugador1.x0 && (cuadradosBottom.get(i).x0 + cuadradosBottom.get(i).width) >= jugador1.x0)
+                if (cuadradosBot.get(i).x0 <= jugador1.x0 && (cuadradosBot.get(i).x0 + cuadradosBot.get(i).width) >= jugador1.x0)
                 {
                     cuadroBottom = i;
                 }
@@ -170,9 +203,9 @@ public class GameState {
         }
         
         if (gravityDown[1]){
-            for (int i = 0; i < cuadradosBottom.size(); i++)
+            for (int i = 0; i < cuadradosBot.size(); i++)
             {
-                if (cuadradosBottom.get(i).x0 <= jugador2.x0 && (cuadradosBottom.get(i).x0 + cuadradosBottom.get(i).width) >= jugador2.x0)
+                if (cuadradosBot.get(i).x0 <= jugador2.x0 && (cuadradosBot.get(i).x0 + cuadradosBot.get(i).width) >= jugador2.x0)
                 {
                     cuadroActual = i;
                 }
@@ -195,9 +228,9 @@ public class GameState {
                     cuadroActual = i;
                 }
             }
-            for (int i = 0; i < cuadradosBottom.size(); i++)
+            for (int i = 0; i < cuadradosBot.size(); i++)
             {
-                if (cuadradosBottom.get(i).x0 <= jugador2.x0 && (cuadradosBottom.get(i).x0 + cuadradosBottom.get(i).width) >= jugador2.x0)
+                if (cuadradosBot.get(i).x0 <= jugador2.x0 && (cuadradosBot.get(i).x0 + cuadradosBot.get(i).width) >= jugador2.x0)
                 {
                     cuadroBottom = i;
                 }
@@ -236,9 +269,9 @@ public class GameState {
                     + "]" + CRLF;
         }
 
-        for (int i = 0; i < cuadradosBottom.size(); i++)
+        for (int i = 0; i < cuadradosBot.size(); i++)
         {
-            Cuadrado cuadrado = cuadradosBottom.get(i);
+            Cuadrado cuadrado = cuadradosBot.get(i);
             data += "CB" + i + " ["
                     + cuadrado.x0 + ","
                     + cuadrado.y0 + ","
@@ -284,7 +317,7 @@ public class GameState {
                 list = cuadradosTop;
             } else
             {
-                list = cuadradosBottom;
+                list = cuadradosBot;
             }
             
             int index = Integer.parseInt(piece.substring(2,piece.indexOf("[")).trim());
@@ -339,7 +372,7 @@ public class GameState {
         int jugadorY, jugadorX, paredY, topX, jugadorYo;
         int pisoY;
         boolean bandera = false;
-        Cuadrado piso = cuadradosBottom.get(cuadroActual);
+        Cuadrado piso = cuadradosBot.get(cuadroActual);
         Cuadrado top = cuadradosTop.get(cuadroTop+1);
         topX = top.x0;
         paredY = top.y0 + top.height;
@@ -369,7 +402,7 @@ public class GameState {
         int pisoY;
         boolean bandera = false;
         Cuadrado piso = cuadradosTop.get(cuadroActual);
-        Cuadrado bottom = cuadradosBottom.get(cuadroBottom+1);
+        Cuadrado bottom = cuadradosBot.get(cuadroBottom+1);
         bottomX = bottom.x0;
         paredY = bottom.y0;
         jugadorY = jugador.y0;
@@ -399,7 +432,7 @@ public class GameState {
         int pisoY;
         boolean retorno = false;
         
-        Cuadrado pared = cuadradosBottom.get(cuadroActual);
+        Cuadrado pared = cuadradosBot.get(cuadroActual);
         jugadorX = jugador.x0 + jugador.width;
         jugadorY = jugador.y0 + jugador.height;
         pisoY = pared.y0;
