@@ -84,6 +84,11 @@ public class GameState {
         int randomx;
         int randomy;
         int xAnterior;
+        
+        for(int i = 0; i < stuck.length; i++)
+        {
+            stuck[i] = false;
+        }
 
         //PARTE DE ARRIBA DEL MUNDO
         
@@ -143,7 +148,7 @@ public class GameState {
                 }
             }
             gravedadAbajo(cuadroActual,jugador1);
-            stuck[0] = limiteParedBottom(cuadroActual+1,jugador1); 
+            stuck[0] = stuck[0] || limiteParedBottom(cuadroActual+1,jugador1); 
         }
         else{
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -161,7 +166,7 @@ public class GameState {
                 }
             }
             gravedadArriba(cuadroActual,jugador1);
-           stuck[0] =  limiteParedTop(cuadroActual+1,jugador1); 
+           stuck[0] =  stuck[0] || limiteParedTop(cuadroActual+1,jugador1); 
         }
         
         if (gravityDown[1]){
@@ -180,7 +185,7 @@ public class GameState {
                 }
             }
             gravedadAbajo(cuadroActual,jugador2);
-            stuck[1] = limiteParedBottom(cuadroActual+1,jugador2); 
+            stuck[1] = stuck[1] || limiteParedBottom(cuadroActual+1,jugador2); 
         }
         else{
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -198,7 +203,7 @@ public class GameState {
                 }
             }
             gravedadArriba(cuadroActual,jugador2);
-            stuck[1] = limiteParedTop(cuadroActual+1,jugador2); 
+            stuck[1] = stuck[1] || limiteParedTop(cuadroActual+1,jugador2); 
         }
     }
 
