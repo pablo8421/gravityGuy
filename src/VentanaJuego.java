@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,8 +27,8 @@ public class VentanaJuego extends java.awt.Frame {
      * Creates new form Prueba
      */
     
-    GameState gState[];
-    int current;
+    GameState gState;
+    int estadoJuego;
     
     public final static String CRLF = "\r\n";
     
@@ -52,12 +53,8 @@ public class VentanaJuego extends java.awt.Frame {
         while (!in.ready()){}
         String br = null;
         gDown = true;
-        current = 0;
-        gState = new GameState[2];
-        for(int i = 0; i < gState.length; i++)
-        {
-            gState[i] = new GameState();
-        }
+        estadoJuego = 0;
+        gState = new GameState();
                 
         paintor = new Paintor(this);
         updater = new Updater();
@@ -101,8 +98,7 @@ public class VentanaJuego extends java.awt.Frame {
     @Override
     public void paint(Graphics g) {
             super.paint(g);
-            GameState now = gState[current];
-            now = gState[current];
+            GameState now = gState;
             
             g.setColor(Color.black);
             g.fillRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
@@ -165,7 +161,7 @@ public class VentanaJuego extends java.awt.Frame {
         @Override
         public void run()
         {
-            while(true)
+            while(estadoJuego == 0)
             {
                 try
                 {
@@ -176,6 +172,15 @@ public class VentanaJuego extends java.awt.Frame {
                 }
                 juego.repaint();
             }
+            juego.repaint();
+            if(estadoJuego == 1)
+            {
+                JOptionPane.showMessageDialog(null, "Gano! Felicidades!");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Pos perdiste mijo");
+            }
         }
     }
     
@@ -185,7 +190,7 @@ public class VentanaJuego extends java.awt.Frame {
         @Override
         public void run()
         {
-            GameState now = gState[current];
+            GameState now = gState;
             while(true)
             {
                 try
@@ -194,12 +199,22 @@ public class VentanaJuego extends java.awt.Frame {
                     {
                     }
 
-                    String br = null;
+                    String br;
                     while (!(br = in.readLine()).equals("END STATE"))
                     {
-                        now.deSerializePiece(br);
+                        if(br.equals("GANO"))
+                        {
+                            estadoJuego = 1;
+                        }
+                        else if(br.equals("PERDIO"))
+                        {
+                            estadoJuego = 2;
+                        }
+                        else
+                        {
+                            now.deSerializePiece(br);
+                        }
                     }
-                    //out.writeBytes("REQUEST UPDATE"+CRLF);
                 } catch (IOException ex)
                 {
                     Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);

@@ -35,7 +35,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
     
     private static int puerto = 6321;
     
-    private static int userQuantity = 2;
+    private static int userQuantity = 1;
     
     private static ServerSocket welcomeSocket;
     private static Socket sockets[];
@@ -325,16 +325,16 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 readBoth(gs);
                 serialized = gs.serializeState();
                 sendBoth(serialized);                
-                if (gameEnded()){
-                    //JOptionPane.showMessageDialog(null, "Ha perdido.");
-                    System.out.println("FIN");
-                    addLog("FIN");
-                    break;
-                }
                 try
                 {
+                    if (gameEnded(gs))
+                    {
+                        addLog("FIN");
+                        break;
+                    }
+                    
                     Thread.sleep(0);
-                } catch (InterruptedException ex)
+                } catch (Exception ex)
                 {
                     Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -343,9 +343,24 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             sendBoth(serialized);   
         }
 
-        private boolean gameEnded()
+        private boolean gameEnded(GameState gs) throws IOException
         {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            /*if(gs.jugador2.x0 <= 5)
+            {
+                out[0].writeBytes("GANO" + CRLF);
+                out[1].writeBytes("PERDIO" + CRLF);
+                return true;
+            }
+            else*/ if(gs.jugador1.x0 <= 5)
+            {
+                //out[1].writeBytes("GANO" + CRLF);
+                out[0].writeBytes("PERDIO" + CRLF);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
