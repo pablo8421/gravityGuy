@@ -113,7 +113,8 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         serverRun = new ServerConnection();
         serverThread = new Thread(serverRun);
         serverThread.start();
-        
+        while (serverThread.isAlive()){}
+        dispose();
         verbose = textAreaVerbose;
     }
 
