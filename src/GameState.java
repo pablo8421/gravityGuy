@@ -212,10 +212,10 @@ public class GameState {
                 + "]" + CRLF;
 
         data += "J2 ["
-                + jugador1.x0 + ","
-                + jugador1.y0 + ","
-                + jugador1.width + ","
-                + jugador1.height
+                + jugador2.x0 + ","
+                + jugador2.y0 + ","
+                + jugador2.width + ","
+                + jugador2.height
                 + "]" + CRLF;
 
         for (int i = 0; i < cuadradosTop.size(); i++)

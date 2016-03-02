@@ -345,13 +345,13 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
 
         private boolean gameEnded(GameState gs) throws IOException
         {
-            /*if(gs.jugador2.x0 <= 5)
+            if(gs.jugador2.x0 <= 5)
             {
                 out[0].writeBytes("GANO" + CRLF);
                 out[1].writeBytes("PERDIO" + CRLF);
                 return true;
             }
-            else*/ if(gs.jugador1.x0 <= 5)
+            else if(gs.jugador1.x0 <= 5)
             {
                 //out[1].writeBytes("GANO" + CRLF);
                 out[0].writeBytes("PERDIO" + CRLF);
