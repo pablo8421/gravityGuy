@@ -168,6 +168,7 @@ public class GameState {
             cuadradosBot.add(cuadrado);
         }
         
+        boolean bandera = true;
         if (gravityDown[0]){
             for (int i = 0; i < cuadradosBot.size(); i++)
             {
@@ -175,9 +176,10 @@ public class GameState {
                 {
                     cuadroActual = i;
                 }
-                if (  jugador1.x0+jugador1.width <= cuadradosBot.get(i).x0 )
+                if (  jugador1.x0 >= cuadradosBot.get(i).x0+cuadradosBot.get(i).width && bandera)
                 {
                     cuadroSiguiente = i;
+                    bandera = false;
                 }
             }
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -197,9 +199,10 @@ public class GameState {
                 {
                     cuadroActual = i;
                 }
-                if (jugador1.x0+jugador1.width <= cuadradosTop.get(i).x0 )
+                if (jugador1.x0 >= cuadradosTop.get(i).x0+cuadradosTop.get(i).width && bandera )
                 {
                     cuadroSiguiente = i;
+                    bandera = false;
                 }
             }
             for (int i = 0; i < cuadradosBot.size(); i++)
@@ -214,6 +217,7 @@ public class GameState {
         }
         
         cuadroSiguiente = 0;
+        bandera = true;
         if (gravityDown[1]){
             for (int i = 0; i < cuadradosBot.size(); i++)
             {
@@ -221,9 +225,10 @@ public class GameState {
                 {
                     cuadroActual = i;
                 }
-                if (jugador2.x0+jugador2.width <= cuadradosBot.get(i).x0 )
+                if (jugador2.x0 >= cuadradosBot.get(i).x0+cuadradosBot.get(i).width && bandera )
                 {
                     cuadroSiguiente = i;
+                    bandera = false;
                 }
             }
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -243,9 +248,10 @@ public class GameState {
                 {
                     cuadroActual = i;
                 }
-                if ( jugador2.x0 + jugador2.width <= cuadradosTop.get(i).x0 )
+                if ( jugador2.x0 >= cuadradosTop.get(i).x0+cuadradosTop.get(i).width && bandera)
                 {
                     cuadroSiguiente = i;
+                    bandera = false;
                 }
             }
             for (int i = 0; i < cuadradosBot.size(); i++)
