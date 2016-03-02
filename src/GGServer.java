@@ -265,7 +265,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 }
             }
             
-            addLog(message);
+            //addLog(message);
         }
         
         private void readBoth(GameState gs)
@@ -350,7 +350,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             }
             else if(gs.jugador1.x0 <= 5)
             {
-                //out[1].writeBytes("GANO" + CRLF);
+                out[1].writeBytes("GANO" + CRLF);
                 out[0].writeBytes("PERDIO" + CRLF);
                 return true;
             }
