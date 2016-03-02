@@ -273,7 +273,7 @@ public class VentanaJuego extends java.awt.Frame {
                             now.deSerializePiece(br);
                         }
                     }
-                } catch (IOException ex)
+                } catch (Exception ex)
                 {
                     Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
                 }
