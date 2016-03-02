@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
@@ -118,6 +119,7 @@ public class Front extends javax.swing.JFrame {
 
     private void serverButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_serverButtonActionPerformed
     {//GEN-HEADEREND:event_serverButtonActionPerformed
+        //serverG
         try
         {
             if(serverGG == null || !serverGG.running)
@@ -127,6 +129,8 @@ public class Front extends javax.swing.JFrame {
                 
                 serverThread.start();
                 this.setVisible(true);
+                serverGG.setVisible(false);
+                JOptionPane.showMessageDialog(null, "El servidor está listo. Dígale a su compañero que se conecte al juego.");
             }
             else
             {
@@ -169,6 +173,8 @@ public class Front extends javax.swing.JFrame {
         if (resultado.contains("OK")){
             int jugador = Integer.parseInt(resultado.substring(9).trim());
             jLabel1.setVisible(true);
+            JOptionPane.showMessageDialog(null, "Esperando a que se conecte el otro jugador");
+            
             try {
                 while (!in.ready()){}
                 resultado = in.readLine();
@@ -183,7 +189,7 @@ public class Front extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(null, resultado);
         }
-        
+        jLabel1.setVisible(false);
     }//GEN-LAST:event_connectButtonActionPerformed
 
     /**
