@@ -129,7 +129,6 @@ public class Front extends javax.swing.JFrame {
                 
                 serverThread.start();
                 this.setVisible(true);
-                serverGG.setVisible(false);
                 JOptionPane.showMessageDialog(null, "El servidor está listo. Dígale a su compañero que se conecte al juego.");
             }
             else
@@ -173,7 +172,6 @@ public class Front extends javax.swing.JFrame {
         if (resultado.contains("OK")){
             int jugador = Integer.parseInt(resultado.substring(9).trim());
             jLabel1.setVisible(true);
-            JOptionPane.showMessageDialog(null, "Esperando a que se conecte el otro jugador");
             
             try {
                 while (!in.ready()){}

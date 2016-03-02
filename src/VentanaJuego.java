@@ -229,11 +229,11 @@ public class VentanaJuego extends java.awt.Frame {
             juego.repaint();
             if(estadoJuego == 1)
             {
-                JOptionPane.showMessageDialog(null, "Gano! Felicidades!");
+                JOptionPane.showMessageDialog(null, "Ganó! Felicidades!");
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Pos perdiste mijo");
+                JOptionPane.showMessageDialog(null, "Perdió! Lo lamentamos!");
             }
             dispose();
         }
