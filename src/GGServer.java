@@ -313,7 +313,13 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             
             sendBoth(serialized);
 
-            
+            try
+            {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex)
+            {
+                Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             
             while(true)
@@ -330,7 +336,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                         break;
                     }
                     
-                    Thread.sleep(10);
+                    Thread.sleep(25);
                 } catch (Exception ex)
                 {
                     Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);

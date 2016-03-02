@@ -112,8 +112,6 @@ public class VentanaJuego extends java.awt.Frame {
             super.paint(g);
             GameState now = gState;
             
-            //g.setColor(Color.black);
-            //g.fillRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
             if(now.stuck[0])
             {
                 g.drawImage(myFree[count], now.jugador1.x0, now.jugador1.y0, this);
@@ -122,12 +120,12 @@ public class VentanaJuego extends java.awt.Frame {
             {
                 g.drawImage(myTrapped[count], now.jugador1.x0, now.jugador1.y0, this);
             }
-            if (now.stuck[0])
+            if (now.stuck[1])
             {
-                g.drawImage(otherFree[count], now.jugador1.x0, now.jugador1.y0, this);
+                g.drawImage(otherFree[count], now.jugador2.x0, now.jugador2.y0, this);
             } else
             {
-                g.drawImage(otherTrapped[count], now.jugador1.x0, now.jugador1.y0, this);
+                g.drawImage(otherTrapped[count], now.jugador2.x0, now.jugador2.y0, this);
             }
             count++;
             count = (count == 4)? 0 : count;
