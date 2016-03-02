@@ -18,7 +18,7 @@ public class GameState {
     Cuadrado jugador1;
     Cuadrado jugador2;
     int cuadroTop, cuadroBottom;
-    boolean gravityDown[], victoria[], fin;
+    boolean gravityDown[], victoria[], fin, stuck[];
 
     public final static String CRLF = "\r\n";
     
@@ -32,11 +32,13 @@ public class GameState {
         jugador2 = new Cuadrado(320, 520, 50, 50);
         gravityDown = new boolean[2];
         victoria = new boolean[2];
+        stuck = new boolean[2];
         fin = false;
         for(int i =0; i < gravityDown.length; i++)
         {
             gravityDown[i] = true;
             victoria[i] = false;
+            stuck[i] = false;
         }
         width = 640;
         height = 640;
@@ -141,7 +143,7 @@ public class GameState {
                 }
             }
             gravedadAbajo(cuadroActual,jugador1);
-            limiteParedBottom(cuadroActual+1,jugador1); 
+            stuck[0] = limiteParedBottom(cuadroActual+1,jugador1); 
         }
         else{
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -159,7 +161,7 @@ public class GameState {
                 }
             }
             gravedadArriba(cuadroActual,jugador1);
-            limiteParedTop(cuadroActual+1,jugador1); 
+           stuck[0] =  limiteParedTop(cuadroActual+1,jugador1); 
         }
         
         if (gravityDown[1]){
@@ -178,7 +180,7 @@ public class GameState {
                 }
             }
             gravedadAbajo(cuadroActual,jugador2);
-            limiteParedBottom(cuadroActual+1,jugador2); 
+            stuck[1] = limiteParedBottom(cuadroActual+1,jugador2); 
         }
         else{
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -196,7 +198,7 @@ public class GameState {
                 }
             }
             gravedadArriba(cuadroActual,jugador2);
-            limiteParedTop(cuadroActual+1,jugador2); 
+            stuck[1] = limiteParedTop(cuadroActual+1,jugador2); 
         }
     }
 
@@ -385,11 +387,12 @@ public class GameState {
             jugador.x0 = bottomX - jugador.width-1;
         }
     }
-    public void limiteParedBottom(int cuadroActual, Cuadrado jugador) {
+    public boolean limiteParedBottom(int cuadroActual, Cuadrado jugador) {
         int jugadorX;
         int jugadorY;
         int paredX;
         int pisoY;
+        boolean retorno = false;
         
         Cuadrado pared = cuadradosBottom.get(cuadroActual);
         jugadorX = jugador.x0 + jugador.width;
@@ -398,17 +401,21 @@ public class GameState {
         paredX = pared.x0;
         if (jugadorX >= paredX && pisoY < jugadorY) {
             jugador.x0 -= 10;
+            retorno = true;
         }
         jugadorX = jugador.x0 + jugador.width;
         if(jugadorX < paredX && pisoY < jugadorY){
             jugador.x0 = paredX - jugador.width-1;
         }
+        
+        return retorno;
     }
-    public void limiteParedTop(int cuadroActual, Cuadrado jugador) {
+    public boolean limiteParedTop(int cuadroActual, Cuadrado jugador) {
         int jugadorX;
         int jugadorY;
         int paredX;
         int pisoY;
+        boolean retorno = false;
         
         Cuadrado pared = cuadradosTop.get(cuadroActual);
         jugadorX = jugador.x0 + jugador.width;
@@ -417,10 +424,13 @@ public class GameState {
         paredX = pared.x0;
         if (jugadorX >= paredX && pisoY > jugadorY) {
             jugador.x0 -= 10;
+            retorno = true;
         }
         jugadorX = jugador.x0 + jugador.width;
         if(jugadorX < paredX && pisoY > jugadorY){
             jugador.x0 = paredX - jugador.width-1;
         }
+        
+        return retorno;
     }
 }

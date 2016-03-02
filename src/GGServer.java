@@ -288,9 +288,6 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                             {
                                 gs.gravityDown[i] = false;
                             }
-                            System.out.println(command + " de " + i);
-                             
-                            
                         }
                         else if(command.startsWith("REQUEST"))
                         {
