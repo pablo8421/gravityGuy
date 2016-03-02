@@ -144,8 +144,11 @@ public class GameState {
             randomx = (int) (Math.random() * (150)) + 60;
             randomy = (int) (Math.random() * (490 - 150)) + 150;
             xAnterior = cuadradosMid.get(cuadradosMid.size() - 1).x0 + cuadradosMid.get(cuadradosMid.size() - 1).width;
-            cuadrado = new Cuadrado(xAnterior, height - randomy, randomx, randomy);
-            cuadradosMid.add(cuadrado);
+            cuadrado = new Cuadrado(xAnterior, randomy, randomx, randomy);
+            if(Math.random()<=0.25){
+                cuadradosMid.add(cuadrado);
+            }
+            
         }
         //PARA ABAJO
         for (int i = 0; i < cuadradosBot.size(); i++)
