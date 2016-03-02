@@ -3,13 +3,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 /*
@@ -41,8 +44,13 @@ public class VentanaJuego extends java.awt.Frame {
     Paintor paintor;
     Updater updater;
     
+    int count;
+    BufferedImage myFree[];
+    BufferedImage myTrapped[];
+    BufferedImage otherFree[];
+    BufferedImage otherTrapped[];
 
-    public VentanaJuego(Socket pingSocket, DataOutputStream out, BufferedReader in) throws IOException {
+    public VentanaJuego(Socket pingSocket, DataOutputStream out, BufferedReader in, int jugador) throws IOException {
         initComponents();
         this.pingSocket = pingSocket;
         this.out = out;
@@ -50,6 +58,7 @@ public class VentanaJuego extends java.awt.Frame {
         this.addKeyListener(new myKeyListener());
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(false);
+        loadImages(jugador);
         while (!in.ready()){}
         String br = null;
         gDown = true;
@@ -100,8 +109,12 @@ public class VentanaJuego extends java.awt.Frame {
             super.paint(g);
             GameState now = gState;
             
-            g.setColor(Color.black);
-            g.fillRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
+            //g.setColor(Color.black);
+            //g.fillRect(now.jugador1.x0, now.jugador1.y0, now.jugador1.width, now.jugador1.height);
+            g.drawImage(myFree[count], now.jugador1.x0, now.jugador1.y0, this);
+            count++;
+            count = (count == 4)? 0 : count;
+            
             g.setColor(Color.red);
             for (int i = 0; i < now.cuadradosTop.size(); i++) {
                 g.fillRect(now.cuadradosTop.get(i).x0, now.cuadradosTop.get(i).y0, now.cuadradosTop.get(i).width, now.cuadradosTop.get(i).height);
@@ -111,6 +124,34 @@ public class VentanaJuego extends java.awt.Frame {
                 g.fillRect(now.cuadradosBottom.get(i).x0, now.cuadradosBottom.get(i).y0, now.cuadradosBottom.get(i).width, now.cuadradosBottom.get(i).height);
             }
      } 
+
+    private void loadImages(int jugador)
+    {
+        String myPath = "sprite/p" + jugador + "/";
+        jugador = (jugador == 0)? 1:0;
+        String otherPath = "sprite/p" + jugador + "/";
+        myFree = new BufferedImage[4];
+        otherFree = new BufferedImage[4];
+        myTrapped = new BufferedImage[4];
+        otherTrapped = new BufferedImage[4];
+        count = 0;
+        
+        for(int i = 0; i < 4; i++)
+        {
+            try
+            {
+                System.out.println(myPath + "a" + i + ".png");
+                myFree[i] = ImageIO.read(new File(myPath + "a" + i + ".png"));
+                otherFree[i] = ImageIO.read(new File(otherPath + "a" + i + ".png"));
+                myTrapped[i] = ImageIO.read(new File(myPath + "s" + i + ".png"));
+                otherTrapped[i] = ImageIO.read(new File(otherPath + "s" + i + ".png"));
+
+            } catch (IOException ex)
+            {
+                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     private class myKeyListener implements KeyListener {
 

@@ -167,12 +167,13 @@ public class Front extends javax.swing.JFrame {
         }
         
         if (resultado.contains("OK")){
+            int jugador = Integer.parseInt(resultado.substring(9).trim());
             try {
                 jLabel1.setVisible(true);
                 while (!in.ready()){}
                 resultado = in.readLine();
                 if (resultado.equals("START GAME")){
-                    VentanaJuego vj = new VentanaJuego(pingSocket, out, in);
+                    VentanaJuego vj = new VentanaJuego(pingSocket, out, in, jugador);
                     vj.setVisible(true);
                 }
             } catch (IOException ex) {
