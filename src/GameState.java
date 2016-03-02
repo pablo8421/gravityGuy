@@ -93,7 +93,7 @@ public class GameState {
     public void updateState()
     {
         Cuadrado cuadrado;
-        int cuadroActual = 0;
+        int cuadroActual = 0, cuadroSiguiente = 0;
         int randomx;
         int randomy;
         int xAnterior;
@@ -177,6 +177,10 @@ public class GameState {
                 {
                     cuadroActual = i;
                 }
+                if (  jugador1.x0+jugador1.width <= cuadradosBot.get(i).x0 )
+                {
+                    cuadroSiguiente = i;
+                }
             }
             for (int i = 0; i < cuadradosTop.size(); i++)
             {
@@ -186,7 +190,7 @@ public class GameState {
                 }
             }
             gravedadAbajo(cuadroActual,jugador1);
-            stuck[0] = stuck[0] || limiteParedBottom(cuadroActual+1,jugador1); 
+            stuck[0] = stuck[0] || limiteParedBottom(cuadroSiguiente,jugador1); 
         }
         else{
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -194,6 +198,10 @@ public class GameState {
                 if (cuadradosTop.get(i).x0 <= jugador1.x0 && (cuadradosTop.get(i).x0 + cuadradosTop.get(i).width) >= jugador1.x0)
                 {
                     cuadroActual = i;
+                }
+                if (jugador1.x0+jugador1.width <= cuadradosTop.get(i).x0 )
+                {
+                    cuadroSiguiente = i;
                 }
             }
             for (int i = 0; i < cuadradosBot.size(); i++)
@@ -204,15 +212,20 @@ public class GameState {
                 }
             }
             gravedadArriba(cuadroActual,jugador1);
-           stuck[0] =  stuck[0] || limiteParedTop(cuadroActual+1,jugador1); 
+            stuck[0] =  stuck[0] || limiteParedTop(cuadroSiguiente,jugador1); 
         }
         
+        cuadroSiguiente = 0;
         if (gravityDown[1]){
             for (int i = 0; i < cuadradosBot.size(); i++)
             {
                 if (cuadradosBot.get(i).x0 <= jugador2.x0 && (cuadradosBot.get(i).x0 + cuadradosBot.get(i).width) >= jugador2.x0)
                 {
                     cuadroActual = i;
+                }
+                if (jugador2.x0+jugador2.width <= cuadradosBot.get(i).x0 )
+                {
+                    cuadroSiguiente = i;
                 }
             }
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -223,7 +236,7 @@ public class GameState {
                 }
             }
             gravedadAbajo(cuadroActual,jugador2);
-            stuck[1] = stuck[1] || limiteParedBottom(cuadroActual+1,jugador2); 
+            stuck[1] = stuck[1] || limiteParedBottom(cuadroSiguiente,jugador2); 
         }
         else{
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -231,6 +244,10 @@ public class GameState {
                 if (cuadradosTop.get(i).x0 <= jugador2.x0 && (cuadradosTop.get(i).x0 + cuadradosTop.get(i).width) >= jugador2.x0)
                 {
                     cuadroActual = i;
+                }
+                if ( jugador2.x0 + jugador2.width <= cuadradosTop.get(i).x0 )
+                {
+                    cuadroSiguiente = i;
                 }
             }
             for (int i = 0; i < cuadradosBot.size(); i++)
@@ -241,7 +258,7 @@ public class GameState {
                 }
             }
             gravedadArriba(cuadroActual,jugador2);
-            stuck[1] = stuck[1] || limiteParedTop(cuadroActual+1,jugador2); 
+            stuck[1] = stuck[1] || limiteParedTop(cuadroSiguiente,jugador2); 
         }
     }
 
