@@ -265,7 +265,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 }
             }
             
-            addLog(message);
+            //addLog(message);
         }
         
         private void readBoth(GameState gs)

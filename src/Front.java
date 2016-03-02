@@ -168,8 +168,8 @@ public class Front extends javax.swing.JFrame {
         
         if (resultado.contains("OK")){
             int jugador = Integer.parseInt(resultado.substring(9).trim());
+            jLabel1.setVisible(true);
             try {
-                jLabel1.setVisible(true);
                 while (!in.ready()){}
                 resultado = in.readLine();
                 if (resultado.equals("START GAME")){
@@ -183,15 +183,6 @@ public class Front extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(null, resultado);
         }
-        
-        /*out.close();
-        try {
-            in.close();
-            pingSocket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(Front.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
         
     }//GEN-LAST:event_connectButtonActionPerformed
 
