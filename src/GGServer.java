@@ -124,8 +124,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
         addressLabel = new javax.swing.JLabel();
@@ -136,6 +135,11 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
 
         jButton1.setText("Stop server");
         jButton1.setActionCommand("stopButton");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         addressLabel.setText("I'm running on localhost");
 
@@ -172,6 +176,11 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;
     private javax.swing.JButton jButton1;
@@ -245,7 +254,6 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 startGame();
                 
                 welcomeSocket.close();
-                
             } catch (IOException ex)
             {
                 Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -344,6 +352,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             }
             serialized = gs.serializeState();
             sendBoth(serialized);   
+            
         }
 
         private boolean gameEnded(GameState gs) throws IOException
