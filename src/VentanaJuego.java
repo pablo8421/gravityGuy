@@ -235,6 +235,7 @@ public class VentanaJuego extends java.awt.Frame {
             {
                 JOptionPane.showMessageDialog(null, "Pos perdiste mijo");
             }
+            dispose();
         }
     }
     
