@@ -139,10 +139,7 @@ public class VentanaJuego extends java.awt.Frame {
                 g.fillRect(now.cuadradosBot.get(i).x0, now.cuadradosBot.get(i).y0, now.cuadradosBot.get(i).width, now.cuadradosBot.get(i).height);
             }
             for (int i = 0; i < now.cuadradosMid.size(); i++) {
-                if(i%3==0){
-                    g.fillRect(now.cuadradosMid.get(i).x0, now.cuadradosMid.get(i).y0, now.cuadradosMid.get(i).width, now.cuadradosMid.get(i).height);
-  
-                }
+                g.fillRect(now.cuadradosMid.get(i).x0, now.cuadradosMid.get(i).y0, now.cuadradosMid.get(i).width, now.cuadradosMid.get(i).height);
             }
      } 
 
