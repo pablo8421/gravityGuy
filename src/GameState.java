@@ -57,7 +57,7 @@ public class GameState {
         //PARA ARRIBA
         while (x < width)
         {
-            randomx = 120;
+            randomx = 127;
             randomy = (int) (Math.random() * (150)) + 30;
             x = xAnterior;
             cuadrado = new Cuadrado(x, 0, randomx, randomy);
@@ -70,7 +70,7 @@ public class GameState {
         xAnterior = 0;
         while (x < width)
         {
-            randomx = 120;
+            randomx = 127;
             randomy = (int) (Math.random() * (150)) + 30;
             x = xAnterior;
             cuadrado = new Cuadrado(x, height - randomy, randomx, randomy);
@@ -121,7 +121,7 @@ public class GameState {
         //Generando cuadros en la parte de arriba del mundo
         if ((cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width) <= width)
         {
-            randomx = 120;
+            randomx = 127;
             randomy = (int) (Math.random() * (150 - 0)) + 30;
             xAnterior = cuadradosTop.get(cuadradosTop.size() - 1).x0 + cuadradosTop.get(cuadradosTop.size() - 1).width;
             cuadrado = new Cuadrado(xAnterior, 0, randomx, randomy);
@@ -158,7 +158,7 @@ public class GameState {
         }
         if ((cuadradosBot.get(cuadradosBot.size() - 1).x0 + cuadradosBot.get(cuadradosBot.size() - 1).width) <= width)
         {
-            randomx = 120;
+            randomx = 127;
             randomy = (int) (Math.random() * (150 - 0)) + 30;
             xAnterior = cuadradosBot.get(cuadradosBot.size() - 1).x0 + cuadradosBot.get(cuadradosBot.size() - 1).width;
             cuadrado = new Cuadrado(xAnterior, height - randomy, randomx, randomy);
@@ -279,6 +279,17 @@ public class GameState {
                     + cuadrado.height
                     + "]" + CRLF;
         }
+        
+        for (int i = 0; i < cuadradosMid.size(); i++)
+        {
+            Cuadrado cuadrado = cuadradosMid.get(i);
+            data += "CM" + i + " ["
+                    + cuadrado.x0 + ","
+                    + cuadrado.y0 + ","
+                    + cuadrado.width + ","
+                    + cuadrado.height
+                    + "]" + CRLF;
+        }
 
         data += "G1 " + gravityDown[0] + CRLF;
         data += "G2 " + gravityDown[1] + CRLF;
@@ -312,11 +323,13 @@ public class GameState {
         else if(piece.startsWith("C"))
         {
             ArrayList<Cuadrado> list;
-            if (piece.startsWith("CT"))
-            {
+            if (piece.startsWith("CT")){
                 list = cuadradosTop;
-            } else
-            {
+            } 
+            else if(piece.startsWith("CM")){
+                list = cuadradosMid;
+            }
+            else{
                 list = cuadradosBot;
             }
             
