@@ -240,37 +240,38 @@ public class VentanaJuego extends java.awt.Frame {
         public void run()
         {
             //Esperar
-            gState.initGame();
+            vj.gState.initGame();
             String rValue;
 
-            while (noGame)
+            while (vj.noGame)
             {
-                gState.updateState();
+                vj.gState.updateState();
                 vj.repaint();
                 try
                 {
                     if (in.ready())
                     {
                         rValue = in.readLine();
-                        if (rValue.equals("3"))
+                        switch (rValue)
                         {
-                            //draw 3
-                            System.out.println("3");
-                        } else if (rValue.equals("2"))
-                        {
-                            //draw 2
-                            System.out.println("2");
-                        } else if (rValue.equals("1"))
-                        {
-                            //draw 1
-                            System.out.println("1");
-                        } else if (rValue.equals("0"))
-                        {
-                            noGame = false;
-
-                            gState = new GameState();
-                            thread.start();
-                            thread2.start();
+                            case "3":
+                                //draw 3
+                                System.out.println("3");
+                                break;
+                            case "2":
+                                //draw 2
+                                System.out.println("2");
+                                break;
+                            case "1":
+                                //draw 1
+                                System.out.println("1");
+                                break;
+                            case "0":
+                                vj.noGame = false;
+                                vj.gState = new GameState();
+                                vj.thread.start();
+                                vj.thread2.start();
+                                break;
                         }
                     }
                 } catch (IOException ex)

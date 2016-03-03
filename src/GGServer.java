@@ -285,7 +285,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                         }
                         else if(command.startsWith("REQUEST"))
                         {
-                            noGame[i] = true;
+                            noGame[i] = false;
                         }
                     }
                 } catch (IOException ex)
@@ -307,7 +307,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             noGame[0] = true;
             noGame[1] = true;
             
-            while(noGame[0] && noGame[1])
+            while(noGame[0] || noGame[1])
             {
                 readBoth(gs);
             }
