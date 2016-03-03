@@ -76,14 +76,6 @@ public class VentanaJuego extends java.awt.Frame {
         thread.start();
         thread2.start();
     }
-
-    public void preGame()
-    {
-        Thread thread;
-        Starter starter = new Starter(this);
-        thread = new Thread(starter);
-        thread.start();
-    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -193,6 +185,7 @@ public class VentanaJuego extends java.awt.Frame {
                 try
                 {
                     out.writeBytes("REQUEST GAME" + CRLF);
+                    noGame = false;
                 } catch (IOException ex)
                 {
                     Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
@@ -225,87 +218,6 @@ public class VentanaJuego extends java.awt.Frame {
         {
             
         }
-    }
-
-    private class Starter implements Runnable
-    {
-        VentanaJuego vj;
-        
-        public Starter(VentanaJuego vj)
-        {
-            this.vj = vj;
-        }
-        
-        @Override
-        public void run()
-        {
-            //Esperar
-            vj.gState.initGame();
-            String rValue;
-
-            while (vj.noGame)
-            {
-                vj.gState.updateState();
-                vj.repaint();
-                try
-                {
-                    if (in.ready())
-                    {
-                        rValue = in.readLine();
-                        if (rValue.startsWith("3"))
-                        {
-                            //draw 3
-                            try
-                            {
-                                out.writeBytes("REQUEST GAME" + CRLF);
-                            } catch (IOException ex)
-                            {
-                                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            System.out.println("3");
-                        } else if (rValue.startsWith("2"))
-                        {
-                            //draw 2
-                            try
-                            {
-                                out.writeBytes("REQUEST GAME" + CRLF);
-                            } catch (IOException ex)
-                            {
-                                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            System.out.println("2");
-                        } else if (rValue.startsWith("1"))
-                        {
-                            //draw 1
-                            try
-                            {
-                                out.writeBytes("REQUEST GAME" + CRLF);
-                            } catch (IOException ex)
-                            {
-                                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            System.out.println("1");
-                        } else if (rValue.startsWith("0"))
-                        {
-                            vj.noGame = false;
-
-                            vj.gState = new GameState();
-                            vj.thread.start();
-                            vj.thread2.start();
-                        }
-                        else
-                        {
-                            System.out.println(rValue);
-                        }
-                    }
-                } catch (IOException ex)
-                {
-                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-        }
-        
     }
     
     private class Paintor implements Runnable {
@@ -363,7 +275,16 @@ public class VentanaJuego extends java.awt.Frame {
                     String br;
                     while (!(br = in.readLine()).equals("END STATE"))
                     {
-                        if(br.equals("GANO"))
+                        if(br.startsWith("3"))
+                        {
+                            System.out.println(br);
+                        }else if(br.startsWith("2"))
+                        {
+                            System.out.println(br);
+                        }else if(br.startsWith("1"))
+                        {
+                            System.out.println(br);
+                        }else if(br.equals("GANO"))
                         {
                             estadoJuego = 1;
                         }
