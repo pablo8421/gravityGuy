@@ -36,7 +36,7 @@ public class VentanaJuego extends java.awt.Frame {
     public final static String CRLF = "\r\n";
     
     Socket pingSocket;
-    boolean gDown;
+    boolean gDown, noGame;
     DataOutputStream out;
     BufferedReader in;
     Thread thread;
@@ -52,27 +52,77 @@ public class VentanaJuego extends java.awt.Frame {
 
     public VentanaJuego(Socket pingSocket, DataOutputStream out, BufferedReader in, int jugador) throws IOException {
         initComponents();
+        
         this.pingSocket = pingSocket;
         this.out = out;
         this.in = in;
+        
         this.addKeyListener(new myKeyListener());
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(false);
+        
         loadImages(jugador);
-        while (!in.ready()){}
-        String br = null;
+        
         gDown = true;
+        noGame = true;
         estadoJuego = 0;
         gState = new GameState();
                 
         paintor = new Paintor(this);
         updater = new Updater();
         thread = new Thread(paintor);
-        thread.start();
         thread2 = new Thread(updater);
+        
+        thread.start();
         thread2.start();
     }
 
+    public void preGame()
+    {
+        //Esperar and shit
+        gState.initGame();
+        String rValue;
+        
+        while(noGame)
+        {
+            gState.updateState();
+            this.repaint();
+            try
+            {                
+                if(in.ready())
+                {
+                    rValue = in.readLine();
+                    if(rValue.equals("3"))
+                    {
+                        //draw 3
+                        System.out.println("3");
+                    }
+                    else if(rValue.equals("2"))
+                    {
+                        //draw 2
+                        System.out.println("2");
+                    }
+                    else if(rValue.equals("1"))
+                    {
+                        //draw 1
+                        System.out.println("1");
+                    }
+                    else if(rValue.equals("0"))
+                    {
+                        noGame = false;
+
+                        gState = new GameState();
+                        thread.start();
+                        thread2.start();
+                    }
+                }
+            } catch (IOException ex)
+            {
+                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -179,6 +229,18 @@ public class VentanaJuego extends java.awt.Frame {
         @Override
         public void keyTyped(KeyEvent e)
         {
+            if(noGame)
+            {
+                try
+                {
+                    out.writeBytes("REQUEST GAME" + CRLF);
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return;
+            }
+            
             if (e.getKeyChar() == ' ' || true){
 
                 gDown = !gDown;

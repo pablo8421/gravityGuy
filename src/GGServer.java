@@ -32,6 +32,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
      */
     
     public boolean running;
+    private boolean noGame[];
     
     private static int puerto = 6321;
     
@@ -185,7 +186,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         
     }
     
-    private static class ServerConnection implements Runnable{
+    private class ServerConnection implements Runnable{
 
         public ServerConnection()
         {
@@ -239,7 +240,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 startGame();
                 
                 welcomeSocket.close();
-            } catch (IOException ex)
+            } catch (IOException | InterruptedException ex)
             {
                 Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -284,7 +285,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                         }
                         else if(command.startsWith("REQUEST"))
                         {
-
+                            noGame[i] = true;
                         }
                     }
                 } catch (IOException ex)
@@ -294,7 +295,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             }
         }
         
-        public void startGame()
+        public void startGame() throws InterruptedException
         {
             GameState gs = new GameState();
             
@@ -302,18 +303,26 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             
             gs.initGame();
             
+            noGame = new boolean[2];
+            noGame[0] = true;
+            noGame[1] = true;
+            
+            while(noGame[0] && noGame[1])
+            {
+                readBoth(gs);
+            }
+            
+            sendBoth("3");
+            Thread.sleep(1000);
+            sendBoth("2");
+            Thread.sleep(1000);
+            sendBoth("1");
+            Thread.sleep(1000);
+            sendBoth("0");
+            
             String serialized = gs.serializeState();
             
             sendBoth(serialized);
-
-            try
-            {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex)
-            {
-                Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
             
             while(true)
             {
