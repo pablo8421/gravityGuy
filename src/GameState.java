@@ -191,8 +191,8 @@ public class GameState {
                     cuadroTop = i;
                 }
             }
-            gravedadAbajo(cuadroActual,jugador1);
             stuck[0] = stuck[0] || limiteParedBottom(cuadroSiguiente,jugador1); 
+            gravedadAbajo(cuadroActual,jugador1);
         }
         else{
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -214,8 +214,9 @@ public class GameState {
                     cuadroBottom = i;
                 }
             }
-            gravedadArriba(cuadroActual,jugador1);
             stuck[0] =  stuck[0] || limiteParedTop(cuadroSiguiente,jugador1); 
+            gravedadArriba(cuadroActual,jugador1);
+            
         }
         
         cuadroSiguiente = 0;
@@ -240,8 +241,8 @@ public class GameState {
                     cuadroTop = i;
                 }
             }
-            gravedadAbajo(cuadroActual,jugador2);
             stuck[1] = stuck[1] || limiteParedBottom(cuadroSiguiente,jugador2); 
+            gravedadAbajo(cuadroActual,jugador2);
         }
         else{
             for (int i = 0; i < cuadradosTop.size(); i++)
@@ -263,8 +264,8 @@ public class GameState {
                     cuadroBottom = i;
                 }
             }
-            gravedadArriba(cuadroActual,jugador2);
             stuck[1] = stuck[1] || limiteParedTop(cuadroSiguiente,jugador2); 
+            gravedadArriba(cuadroActual,jugador2);
         }
     }
 
