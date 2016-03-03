@@ -79,48 +79,10 @@ public class VentanaJuego extends java.awt.Frame {
 
     public void preGame()
     {
-        //Esperar and shit
-        gState.initGame();
-        String rValue;
-        
-        while(noGame)
-        {
-            gState.updateState();
-            this.repaint();
-            try
-            {                
-                if(in.ready())
-                {
-                    rValue = in.readLine();
-                    if(rValue.equals("3"))
-                    {
-                        //draw 3
-                        System.out.println("3");
-                    }
-                    else if(rValue.equals("2"))
-                    {
-                        //draw 2
-                        System.out.println("2");
-                    }
-                    else if(rValue.equals("1"))
-                    {
-                        //draw 1
-                        System.out.println("1");
-                    }
-                    else if(rValue.equals("0"))
-                    {
-                        noGame = false;
-
-                        gState = new GameState();
-                        thread.start();
-                        thread2.start();
-                    }
-                }
-            } catch (IOException ex)
-            {
-                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        Thread thread;
+        Starter starter = new Starter(this);
+        thread = new Thread(starter);
+        thread.start();
     }
     
     /**
@@ -265,6 +227,62 @@ public class VentanaJuego extends java.awt.Frame {
         }
     }
 
+    private class Starter implements Runnable
+    {
+        VentanaJuego vj;
+        
+        public Starter(VentanaJuego vj)
+        {
+            this.vj = vj;
+        }
+        
+        @Override
+        public void run()
+        {
+            //Esperar
+            gState.initGame();
+            String rValue;
+
+            while (noGame)
+            {
+                gState.updateState();
+                vj.repaint();
+                try
+                {
+                    if (in.ready())
+                    {
+                        rValue = in.readLine();
+                        if (rValue.equals("3"))
+                        {
+                            //draw 3
+                            System.out.println("3");
+                        } else if (rValue.equals("2"))
+                        {
+                            //draw 2
+                            System.out.println("2");
+                        } else if (rValue.equals("1"))
+                        {
+                            //draw 1
+                            System.out.println("1");
+                        } else if (rValue.equals("0"))
+                        {
+                            noGame = false;
+
+                            gState = new GameState();
+                            thread.start();
+                            thread2.start();
+                        }
+                    }
+                } catch (IOException ex)
+                {
+                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        }
+        
+    }
+    
     private class Paintor implements Runnable {
 
         VentanaJuego juego;
