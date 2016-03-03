@@ -146,27 +146,29 @@ public class VentanaJuego extends java.awt.Frame {
             count = (count == 4)? 0 : count;
             
             g.setColor(Color.red);
-            for (int i = 0; i < now.cuadradosTop.size(); i++) {
-                g.drawImage(pTop, now.cuadradosTop.get(i).x0, 
-                                  now.cuadradosTop.get(i).y0, 
-                                  now.cuadradosTop.get(i).width, 
-                                  now.cuadradosTop.get(i).height, this);
+            try{
+                for (int i = 0; i < now.cuadradosTop.size(); i++) {
+                    g.drawImage(pTop, now.cuadradosTop.get(i).x0, 
+                                      now.cuadradosTop.get(i).y0, 
+                                      now.cuadradosTop.get(i).width, 
+                                      now.cuadradosTop.get(i).height, this);
+                }
+
+                for (int i = 0; i < now.cuadradosBot.size(); i++) {
+                    g.drawImage(pBot, now.cuadradosBot.get(i).x0, 
+                                      now.cuadradosBot.get(i).y0, 
+                                      now.cuadradosBot.get(i).width, 
+                                      now.cuadradosBot.get(i).height, this);
+                }
+
+                for (int i = 0; i < now.cuadradosMid.size(); i++) {
+                    g.drawImage(block, now.cuadradosMid.get(i).x0, 
+                                      now.cuadradosMid.get(i).y0, 
+                                      now.cuadradosMid.get(i).width, 
+                                      now.cuadradosMid.get(i).height, this);
+                }
             }
-            
-            for (int i = 0; i < now.cuadradosBot.size(); i++) {
-                g.drawImage(pBot, now.cuadradosBot.get(i).x0, 
-                                  now.cuadradosBot.get(i).y0, 
-                                  now.cuadradosBot.get(i).width, 
-                                  now.cuadradosBot.get(i).height, this);
-            }
-            
-            for (int i = 0; i < now.cuadradosMid.size(); i++) {
-                g.drawImage(block, now.cuadradosMid.get(i).x0, 
-                                  now.cuadradosMid.get(i).y0, 
-                                  now.cuadradosMid.get(i).width, 
-                                  now.cuadradosMid.get(i).height, this);
-            }
-            
+            catch(Exception e){}
             if(waitLabel.isVisible())
             {
                 waitLabel.paint(waitLabel.getGraphics());

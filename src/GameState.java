@@ -295,6 +295,9 @@ public class GameState {
             stuck[1] = stuck[1] || limiteParedTop(cuadroSiguiente,jugador2); 
             gravedadArriba(cuadroActual,jugador2);
         }
+        
+        retrocederMid(1);
+        retrocederMid(2);
     }
 
     public String serializeState()
@@ -520,6 +523,10 @@ public class GameState {
             if (cuadroSiguiente!=-1){
                 midX = cuadradosMid.get(cuadroSiguiente).x0;
 
+                paredMidInfY = cuadradosMid.get(cuadroSiguiente).y0;
+                paredMidSupY = cuadradosMid.get(cuadroSiguiente).y0 + cuadradosMid.get(cuadroSiguiente).height;
+                
+                
                 //VERIFICAR
                 jugadorYo = jugador.y0;
                 if (jugadorX >= midX && (paredMidInfY <= jugadorYo && jugadorY<=paredMidSupY )) {
@@ -532,6 +539,40 @@ public class GameState {
             }
         }
     }
+    
+    public void retrocederMid(int num)
+    {
+        Cuadrado jug;
+        if(num == 1)
+        {
+            jug = jugador1;
+        }
+        else
+        {
+            jug = jugador2;
+        }
+        
+        int j1x = jug.x0 + jug.width - 10;
+        int j1y1 = jug.y0;
+        int j1y2 = jug.y0 + jug.height;
+        
+        for(int i = 0; i < cuadradosMid.size(); i++)
+        {
+            Cuadrado now = cuadradosMid.get(i);
+            
+            if(j1x < (now.x0+now.width) && j1x > now.x0)
+            {
+                if((j1y1 > now.y0 && j1y1 < (now.y0 + now.height)) 
+                || (j1y2 > now.y0 && j1y2 < (now.y0+now.width)))
+                {
+                    jug.x0 -= 10;
+                    break;
+                }
+            }
+            
+        }
+    }
+    
     public void gravedadArriba(int cuadroActual, Cuadrado jugador) {
         int jugadorY, bottomX, paredY, jugadorYH, jugadorX,midX=-1,paredMidInfY=-1,paredMidSupY=-1;
         int pisoY;
@@ -597,6 +638,11 @@ public class GameState {
             if (cuadroSiguiente!=-1){
                 midX = cuadradosMid.get(cuadroSiguiente).x0;
                 jugadorYH = jugador.y0 + jugador.height;
+                
+                paredMidInfY = cuadradosMid.get(cuadroSiguiente).y0;
+                paredMidSupY = cuadradosMid.get(cuadroSiguiente).y0 + cuadradosMid.get(cuadroSiguiente).height;
+
+                
                 if (jugadorX >= midX && (paredMidInfY <= jugadorY && jugadorYH<=paredMidSupY )) {
                     jugador.x0 -= 10;
                 }
