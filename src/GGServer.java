@@ -333,7 +333,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                         break;
                     }
                     
-                    Thread.sleep(200);
+                    Thread.sleep(25);
                 } catch (Exception ex)
                 {
                     Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);

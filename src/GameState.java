@@ -507,36 +507,6 @@ public class GameState {
                 jugador.y0 += 5;
                 bandera = true;
             }
-
-            jugadorY = jugador.y0 + jugador.height;
-            if (pisoY <= jugadorY && bandera) {
-                jugador.y0 = pisoY-jugador.height-11;
-            }
-
-            int cuadroSiguiente = -1;
-            for (int i=0;i<cuadradosMid.size();i++){
-                if ((jugador.x0+jugador.width)>=cuadradosMid.get(i).x0){
-                    cuadroSiguiente = i;
-                    break;
-                }
-            }
-            if (cuadroSiguiente!=-1){
-                midX = cuadradosMid.get(cuadroSiguiente).x0;
-
-                paredMidInfY = cuadradosMid.get(cuadroSiguiente).y0;
-                paredMidSupY = cuadradosMid.get(cuadroSiguiente).y0 + cuadradosMid.get(cuadroSiguiente).height;
-                
-                
-                //VERIFICAR
-                jugadorYo = jugador.y0;
-                if (jugadorX >= midX && (paredMidInfY <= jugadorYo && jugadorY<=paredMidSupY )) {
-                    jugador.x0 -= 10;
-                }
-                jugadorX = jugador.x0 + jugador.width;
-                if(jugadorX >= midX-10 && (paredMidInfY <= jugadorYo && jugadorY<=paredMidSupY )){
-                    jugador.x0 = midX - jugador.width-1;
-                }   
-            }
         }
     }
     
@@ -565,8 +535,11 @@ public class GameState {
                 if((j1y1 > now.y0 && j1y1 < (now.y0 + now.height)) 
                 || (j1y2 > now.y0 && j1y2 < (now.y0+now.width)))
                 {
-                    jug.x0 -= 10;
-                    break;
+                    if(!((j1x - 35) < (now.x0+now.width) && (j1x - 30) > now.x0))
+                    {
+                        jug.x0 -= 10;
+                        break;                        
+                    }
                 }
             }
             
@@ -625,31 +598,6 @@ public class GameState {
             jugadorY = jugador.y0 + jugador.height;
             if (pisoY >= jugadorY && bandera) {
                 jugador.y0 = pisoY+11;
-            }
-            
-            int cuadroSiguiente = -1;
-            for (int i=0;i<cuadradosMid.size();i++){
-                if ((jugador.x0+jugador.width)>=cuadradosMid.get(i).x0){
-                    cuadroSiguiente = i;
-                    break;
-                }
-            }
-                                              
-            if (cuadroSiguiente!=-1){
-                midX = cuadradosMid.get(cuadroSiguiente).x0;
-                jugadorYH = jugador.y0 + jugador.height;
-                
-                paredMidInfY = cuadradosMid.get(cuadroSiguiente).y0;
-                paredMidSupY = cuadradosMid.get(cuadroSiguiente).y0 + cuadradosMid.get(cuadroSiguiente).height;
-
-                
-                if (jugadorX >= midX && (paredMidInfY <= jugadorY && jugadorYH<=paredMidSupY )) {
-                    jugador.x0 -= 10;
-                }
-                jugadorX = jugador.x0 + jugador.width;
-                if(jugadorX >= midX-10 && paredY < jugadorYH){
-                    jugador.x0 = midX - jugador.width-1;
-                }
             }
         }
     }
