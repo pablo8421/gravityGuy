@@ -81,10 +81,10 @@ public class GameState {
         while (x < width)
         {
             randomx = (int) (Math.random() * (80)) + 60;
-            randomy = (int) (Math.random() * (490 - 150)) + 150;
+            randomy = (int) (Math.random() * (200)) + 190;
             int randomHeight = (int) (Math.random() * (40)) + 10;
             x = xAnterior;
-            cuadrado = new Cuadrado(x, height - randomy, randomx, randomHeight);
+            cuadrado = new Cuadrado(x, randomy, randomx, randomHeight);
             cuadradosMid.add(cuadrado);
             xAnterior = xAnterior + randomx;
         }
@@ -143,8 +143,8 @@ public class GameState {
         if ((cuadradosMid.get(cuadradosMid.size() - 1).x0 + cuadradosMid.get(cuadradosMid.size() - 1).width) <= width)
         {
             randomx = (int) (Math.random() * (80)) + 60;
-            randomy = (int) (Math.random() * (490 - 150)) + 150;
-            int randomHeight = (int) (Math.random() * (40)) + 20;
+            randomy = (int) (Math.random() * (200)) + 190;
+            int randomHeight = (int) (Math.random() * (40)) + 10;
             xAnterior = width;
             cuadrado = new Cuadrado(xAnterior, randomy, randomx, randomHeight);
             if(Math.random()<=0.10){
