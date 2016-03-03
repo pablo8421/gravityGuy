@@ -18,7 +18,7 @@ public class GameState {
     ArrayList<Cuadrado> cuadradosMid;
     Cuadrado jugador1;
     Cuadrado jugador2;
-    int cuadroTop, cuadroBottom;
+    int cuadroTop, cuadroBottom, cuadroMid;
     boolean gravityDown[], victoria[], fin, stuck[];
 
     public final static String CRLF = "\r\n";
@@ -191,6 +191,13 @@ public class GameState {
                     cuadroTop = i;
                 }
             }
+            for (int i = 0; i < cuadradosMid.size(); i++)
+            {
+                if (cuadradosMid.get(i).x0 <= jugador1.x0 && (cuadradosMid.get(i).x0 + cuadradosMid.get(i).width) >= jugador1.x0)
+                {
+                    cuadroMid = i;
+                }
+            }
             stuck[0] = stuck[0] || limiteParedBottom(cuadroSiguiente,jugador1); 
             gravedadAbajo(cuadroActual,jugador1);
         }
@@ -212,6 +219,13 @@ public class GameState {
                 if (cuadradosBot.get(i).x0 <= jugador1.x0 && (cuadradosBot.get(i).x0 + cuadradosBot.get(i).width) >= jugador1.x0)
                 {
                     cuadroBottom = i;
+                }
+            }
+            for (int i = 0; i < cuadradosMid.size(); i++)
+            {
+                if (cuadradosMid.get(i).x0 <= jugador1.x0 && (cuadradosMid.get(i).x0 + cuadradosMid.get(i).width) >= jugador1.x0)
+                {
+                    cuadroMid = i;
                 }
             }
             stuck[0] =  stuck[0] || limiteParedTop(cuadroSiguiente,jugador1); 
@@ -241,6 +255,13 @@ public class GameState {
                     cuadroTop = i;
                 }
             }
+            for (int i = 0; i < cuadradosMid.size(); i++)
+            {
+                if (cuadradosMid.get(i).x0 <= jugador2.x0 && (cuadradosMid.get(i).x0 + cuadradosMid.get(i).width) >= jugador2.x0)
+                {
+                    cuadroMid = i;
+                }
+            }
             stuck[1] = stuck[1] || limiteParedBottom(cuadroSiguiente,jugador2); 
             gravedadAbajo(cuadroActual,jugador2);
         }
@@ -262,6 +283,13 @@ public class GameState {
                 if (cuadradosBot.get(i).x0 <= jugador2.x0 && (cuadradosBot.get(i).x0 + cuadradosBot.get(i).width) >= jugador2.x0)
                 {
                     cuadroBottom = i;
+                }
+            }
+            for (int i = 0; i < cuadradosMid.size(); i++)
+            {
+                if (cuadradosMid.get(i).x0 <= jugador2.x0 && (cuadradosMid.get(i).x0 + cuadradosMid.get(i).width) >= jugador2.x0)
+                {
+                    cuadroMid = i;
                 }
             }
             stuck[1] = stuck[1] || limiteParedTop(cuadroSiguiente,jugador2); 
@@ -411,31 +439,39 @@ public class GameState {
         
     }
     public void gravedadAbajo(int cuadroActual, Cuadrado jugador) {
-        int jugadorY, jugadorX, paredY, topX, jugadorYo;
+        int jugadorY, jugadorX, paredY, topX, jugadorYo,midX,paredMidInfY,paredMidSupY;
         int pisoY;
         boolean bandera = false;
         Cuadrado piso = cuadradosBot.get(cuadroActual);
         Cuadrado top = cuadradosTop.get(cuadroTop+1);
+        Cuadrado mid = cuadradosMid.get(cuadroTop+1);
+        
         topX = top.x0;
+        midX = mid.x0;
+        
         paredY = top.y0 + top.height;
+        paredMidInfY = mid.y0;
+        paredMidSupY = mid.y0+mid.height;
+        
         jugadorY = jugador.y0 + jugador.height;
         jugadorX = jugador.x0 + jugador.width;
         pisoY = piso.y0;
         if (pisoY > jugadorY) {
             jugador.y0 += 5;
             bandera = true;
-            
         }
+        
         jugadorY = jugador.y0 + jugador.height;
         if (pisoY <= jugadorY && bandera) {
             jugador.y0 = pisoY-jugador.height-1;
         }
+        
         jugadorYo = jugador.y0;
         if (jugadorX >= topX && paredY > jugadorYo) {
             jugador.x0 -= 10;
         }
         jugadorX = jugador.x0 + jugador.width;
-        if(jugadorX < topX && paredY > jugadorYo){
+        if(jugadorX >= topX-10 && paredY > jugadorYo){
             jugador.x0 = topX - jugador.width-1;
         }   
     }
@@ -463,7 +499,7 @@ public class GameState {
             jugador.x0 -= 10;
         }
         jugadorX = jugador.x0 + jugador.width;
-        if(jugadorX < bottomX && paredY < jugadorYH){
+        if(jugadorX >= bottomX-10 && paredY < jugadorYH){
             jugador.x0 = bottomX - jugador.width-1;
         }
     }
