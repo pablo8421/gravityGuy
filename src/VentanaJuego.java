@@ -1,6 +1,8 @@
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -31,6 +33,10 @@ public class VentanaJuego extends java.awt.Frame {
      */
     
     GameState gState;
+    Graphics bufferGraphics;
+    Image offScreen;
+    Dimension dim;
+    
     int estadoJuego;
     
     public final static String CRLF = "\r\n";
@@ -55,6 +61,11 @@ public class VentanaJuego extends java.awt.Frame {
 
     public VentanaJuego(Socket pingSocket, DataOutputStream out, BufferedReader in, int jugador) throws IOException {
         initComponents();
+        
+        dim = getSize();
+        setBackground(Color.BLACK);
+        offScreen = createImage(dim.width, dim.height);
+        bufferGraphics = offScreen.getGraphics();
         
         this.pingSocket = pingSocket;
         this.out = out;
@@ -123,52 +134,63 @@ public class VentanaJuego extends java.awt.Frame {
      */
     
     @Override
+    public void update(Graphics g)
+    {
+        paint(g);
+    }
+    
+    @Override
     public void paint(Graphics g) {
-            super.paint(g);
             GameState now = gState;
+            
+            bufferGraphics.clearRect(0, 0, dim.width, dim.height);
             
             if(!now.stuck[0])
             {
-                g.drawImage(myFree[count], now.jugador1.x0, now.jugador1.y0, this);
+                bufferGraphics.drawImage(myFree[count], now.jugador1.x0, now.jugador1.y0, this);
             }
             else
             {
-                g.drawImage(myTrapped[count], now.jugador1.x0, now.jugador1.y0, this);
+                bufferGraphics.drawImage(myTrapped[count], now.jugador1.x0, now.jugador1.y0, this);
             }
             if (!now.stuck[1])
             {
-                g.drawImage(otherFree[count], now.jugador2.x0, now.jugador2.y0, this);
+                bufferGraphics.drawImage(otherFree[count], now.jugador2.x0, now.jugador2.y0, this);
             } else
             {
-                g.drawImage(otherTrapped[count], now.jugador2.x0, now.jugador2.y0, this);
+                bufferGraphics.drawImage(otherTrapped[count], now.jugador2.x0, now.jugador2.y0, this);
             }
             count++;
             count = (count == 4)? 0 : count;
             
-            g.setColor(Color.red);
+            bufferGraphics.setColor(Color.red);
             try{
                 for (int i = 0; i < now.cuadradosTop.size(); i++) {
-                    g.drawImage(pTop, now.cuadradosTop.get(i).x0, 
+                    bufferGraphics.drawImage(pTop, now.cuadradosTop.get(i).x0, 
                                       now.cuadradosTop.get(i).y0, 
                                       now.cuadradosTop.get(i).width, 
                                       now.cuadradosTop.get(i).height, this);
                 }
 
                 for (int i = 0; i < now.cuadradosBot.size(); i++) {
-                    g.drawImage(pBot, now.cuadradosBot.get(i).x0, 
+                    bufferGraphics.drawImage(pBot, now.cuadradosBot.get(i).x0, 
                                       now.cuadradosBot.get(i).y0, 
                                       now.cuadradosBot.get(i).width, 
                                       now.cuadradosBot.get(i).height, this);
                 }
 
                 for (int i = 0; i < now.cuadradosMid.size(); i++) {
-                    g.drawImage(block, now.cuadradosMid.get(i).x0, 
+                    bufferGraphics.drawImage(block, now.cuadradosMid.get(i).x0, 
                                       now.cuadradosMid.get(i).y0, 
                                       now.cuadradosMid.get(i).width, 
                                       now.cuadradosMid.get(i).height, this);
                 }
-            }
+            }           
             catch(Exception e){}
+            
+            g.drawImage(offScreen, 0, 0, this);
+
+            
             if(waitLabel.isVisible())
             {
                 waitLabel.paint(waitLabel.getGraphics());
