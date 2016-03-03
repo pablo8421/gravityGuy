@@ -304,20 +304,20 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             gs.initGame();
             
             noGame = new boolean[2];
-            noGame[0] = true;
-            noGame[1] = true;
-            
-            while(noGame[0] || noGame[1])
-            {
-                readBoth(gs);
-            }
+            noGame[0] = true; noGame[1] = true;
             
             sendBoth("3" + CRLF);
+            noGame[0] = true; noGame[1] = true;
             Thread.sleep(1000);
+            while(noGame[0] || noGame[1]){readBoth(gs);}
             sendBoth("2" + CRLF);
+            noGame[0] = true; noGame[1] = true;
             Thread.sleep(1000);
+            while(noGame[0] || noGame[1]){readBoth(gs);}
             sendBoth("1" + CRLF);
+            noGame[0] = true; noGame[1] = true;
             Thread.sleep(1000);
+            while(noGame[0] || noGame[1]){readBoth(gs);}
             sendBoth("0" + CRLF);
             
             String serialized = gs.serializeState();
