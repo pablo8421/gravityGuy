@@ -327,6 +327,8 @@ public class GameState {
                     + "]" + CRLF;
         }
 
+        data += "CT ! " + cuadradosTop.size() + CRLF;
+        
         for (int i = 0; i < cuadradosBot.size(); i++)
         {
             Cuadrado cuadrado = cuadradosBot.get(i);
@@ -338,6 +340,8 @@ public class GameState {
                     + "]" + CRLF;
         }
         
+        data += "CB ! " + cuadradosBot.size() + CRLF;
+        
         for (int i = 0; i < cuadradosMid.size(); i++)
         {
             Cuadrado cuadrado = cuadradosMid.get(i);
@@ -348,6 +352,8 @@ public class GameState {
                     + cuadrado.height
                     + "]" + CRLF;
         }
+        
+        data += "CM ! " + cuadradosMid.size() + CRLF;
 
         data += "G1 " + gravityDown[0] + CRLF;
         data += "G2 " + gravityDown[1] + CRLF;
@@ -389,6 +395,16 @@ public class GameState {
             }
             else{
                 list = cuadradosBot;
+            }
+            
+            if(piece.contains("!"))
+            {
+                int size = Integer.parseInt(piece.substring(4).trim());
+                while(size == list.size())
+                {
+                    list.remove(list.size()-1);
+                }
+                return;
             }
             
             int index = Integer.parseInt(piece.substring(2,piece.indexOf("[")).trim());
