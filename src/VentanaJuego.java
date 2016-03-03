@@ -86,6 +86,8 @@ public class VentanaJuego extends java.awt.Frame {
     private void initComponents()
     {
 
+        waitLabel = new javax.swing.JLabel();
+
         setMaximumSize(new java.awt.Dimension(640, 640));
         setMinimumSize(new java.awt.Dimension(640, 640));
         setResizable(false);
@@ -96,6 +98,12 @@ public class VentanaJuego extends java.awt.Frame {
                 exitForm(evt);
             }
         });
+
+        waitLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        waitLabel.setForeground(new java.awt.Color(255, 204, 51));
+        waitLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        waitLabel.setText("Press Spacebar to start");
+        add(waitLabel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -145,6 +153,11 @@ public class VentanaJuego extends java.awt.Frame {
             for (int i = 0; i < now.cuadradosMid.size(); i++) {
                 g.fillRect(now.cuadradosMid.get(i).x0, now.cuadradosMid.get(i).y0, now.cuadradosMid.get(i).width, now.cuadradosMid.get(i).height);
             }
+            
+            if(waitLabel.isVisible())
+            {
+                waitLabel.paint(waitLabel.getGraphics());
+            }
      } 
 
     private void loadImages(int jugador)
@@ -183,12 +196,13 @@ public class VentanaJuego extends java.awt.Frame {
         @Override
         public void keyTyped(KeyEvent e)
         {
-            if(noGame)
+            if(noGame && e.getKeyChar() == ' ')
             {
                 try
                 {
                     out.writeBytes("REQUEST GAME" + CRLF);
                     noGame = false;
+                    waitLabel.setText("Waiting...");
                 } catch (IOException ex)
                 {
                     Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
@@ -196,7 +210,7 @@ public class VentanaJuego extends java.awt.Frame {
                 return;
             }
             
-            if (e.getKeyChar() == ' ' || true){
+            if (e.getKeyChar() == ' '){
 
                 gDown = !gDown;
                 try
@@ -280,16 +294,17 @@ public class VentanaJuego extends java.awt.Frame {
                     {
                         if(br.startsWith("3"))
                         {
-                            System.out.println(br);
+                            waitLabel.setText("3");
                         }else if(br.startsWith("2"))
                         {
-                            System.out.println(br);
+                            waitLabel.setText("2");
                         }else if(br.startsWith("1"))
                         {
-                            System.out.println(br);
+                            waitLabel.setText("1");
                         }else if(br.startsWith("0"))
                         {
-                            System.out.println(br);
+                            waitLabel.setText("");
+                            waitLabel.setVisible(false);
                         }else if(br.equals("GANO"))
                         {
                             estadoJuego = 1;
@@ -312,6 +327,9 @@ public class VentanaJuego extends java.awt.Frame {
         }
         
     }
-}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel waitLabel;
     // End of variables declaration//GEN-END:variables
+
+}
