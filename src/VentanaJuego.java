@@ -252,26 +252,25 @@ public class VentanaJuego extends java.awt.Frame {
                     if (in.ready())
                     {
                         rValue = in.readLine();
-                        switch (rValue)
+                        if (rValue.equals("3"))
                         {
-                            case "3":
-                                //draw 3
-                                System.out.println("3");
-                                break;
-                            case "2":
-                                //draw 2
-                                System.out.println("2");
-                                break;
-                            case "1":
-                                //draw 1
-                                System.out.println("1");
-                                break;
-                            case "0":
-                                vj.noGame = false;
-                                vj.gState = new GameState();
-                                vj.thread.start();
-                                vj.thread2.start();
-                                break;
+                            //draw 3
+                            System.out.println("3");
+                        } else if (rValue.equals("2"))
+                        {
+                            //draw 2
+                            System.out.println("2");
+                        } else if (rValue.equals("1"))
+                        {
+                            //draw 1
+                            System.out.println("1");
+                        } else if (rValue.equals("0"))
+                        {
+                            vj.noGame = false;
+
+                            vj.gState = new GameState();
+                            vj.thread.start();
+                            vj.thread2.start();
                         }
                     }
                 } catch (IOException ex)
