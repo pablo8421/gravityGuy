@@ -444,14 +444,14 @@ public class GameState {
         boolean bandera = false;
         Cuadrado piso = cuadradosBot.get(cuadroActual);
         Cuadrado top = cuadradosTop.get(cuadroTop+1);
-        Cuadrado mid = cuadradosMid.get(cuadroTop+1);
+        //Cuadrado mid = cuadradosMid.get(cuadroMid+1);
         
         topX = top.x0;
-        midX = mid.x0;
+        //midX = mid.x0;
         
         paredY = top.y0 + top.height;
-        paredMidInfY = mid.y0;
-        paredMidSupY = mid.y0+mid.height;
+        //paredMidInfY = mid.y0;
+        //paredMidSupY = mid.y0+mid.height;
         
         jugadorY = jugador.y0 + jugador.height;
         jugadorX = jugador.x0 + jugador.width;
