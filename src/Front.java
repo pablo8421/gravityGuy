@@ -172,7 +172,7 @@ public class Front extends javax.swing.JFrame {
         if (resultado.contains("OK")){
             int jugador = Integer.parseInt(resultado.substring(9).trim());
             jLabel1.setVisible(true);
-            
+            JOptionPane.showMessageDialog(null, "Esperando al otro jugador...");
             try {
                 while (!in.ready()){}
                 resultado = in.readLine();
