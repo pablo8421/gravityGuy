@@ -312,13 +312,13 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 readBoth(gs);
             }
             
-            sendBoth("3");
+            sendBoth("3" + CRLF);
             Thread.sleep(1000);
-            sendBoth("2");
+            sendBoth("2" + CRLF);
             Thread.sleep(1000);
-            sendBoth("1");
+            sendBoth("1" + CRLF);
             Thread.sleep(1000);
-            sendBoth("0");
+            sendBoth("0" + CRLF);
             
             String serialized = gs.serializeState();
             
