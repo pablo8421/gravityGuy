@@ -533,7 +533,7 @@ public class GameState {
             if(j1x < (now.x0+now.width) && j1x > now.x0)
             {
                 if((j1y1 > now.y0 && j1y1 < (now.y0 + now.height)) 
-                || (j1y2 > now.y0 && j1y2 < (now.y0+now.width)))
+                || (j1y2 > now.y0 && j1y2 < (now.y0+now.height)))
                 {
                     if(!((j1x - 35) < (now.x0+now.width) && (j1x - 30) > now.x0))
                     {
