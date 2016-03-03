@@ -49,6 +49,9 @@ public class VentanaJuego extends java.awt.Frame {
     BufferedImage myTrapped[];
     BufferedImage otherFree[];
     BufferedImage otherTrapped[];
+    BufferedImage pTop;
+    BufferedImage pBot;
+    BufferedImage block;
 
     public VentanaJuego(Socket pingSocket, DataOutputStream out, BufferedReader in, int jugador) throws IOException {
         initComponents();
@@ -144,14 +147,24 @@ public class VentanaJuego extends java.awt.Frame {
             
             g.setColor(Color.red);
             for (int i = 0; i < now.cuadradosTop.size(); i++) {
-                g.fillRect(now.cuadradosTop.get(i).x0, now.cuadradosTop.get(i).y0, now.cuadradosTop.get(i).width, now.cuadradosTop.get(i).height);
+                g.drawImage(pTop, now.cuadradosTop.get(i).x0, 
+                                  now.cuadradosTop.get(i).y0, 
+                                  now.cuadradosTop.get(i).width, 
+                                  now.cuadradosTop.get(i).height, this);
             }
             
             for (int i = 0; i < now.cuadradosBot.size(); i++) {
-                g.fillRect(now.cuadradosBot.get(i).x0, now.cuadradosBot.get(i).y0, now.cuadradosBot.get(i).width, now.cuadradosBot.get(i).height);
+                g.drawImage(pBot, now.cuadradosBot.get(i).x0, 
+                                  now.cuadradosBot.get(i).y0, 
+                                  now.cuadradosBot.get(i).width, 
+                                  now.cuadradosBot.get(i).height, this);
             }
+            
             for (int i = 0; i < now.cuadradosMid.size(); i++) {
-                g.fillRect(now.cuadradosMid.get(i).x0, now.cuadradosMid.get(i).y0, now.cuadradosMid.get(i).width, now.cuadradosMid.get(i).height);
+                g.drawImage(block, now.cuadradosMid.get(i).x0, 
+                                  now.cuadradosMid.get(i).y0, 
+                                  now.cuadradosMid.get(i).width, 
+                                  now.cuadradosMid.get(i).height, this);
             }
             
             if(waitLabel.isVisible())
@@ -184,6 +197,16 @@ public class VentanaJuego extends java.awt.Frame {
             {
                 Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        
+        try
+        {
+            pTop = ImageIO.read(new File("sprite/pipeTop.jpg"));
+            pBot = ImageIO.read(new File("sprite/pipeBot.jpg"));
+            block = ImageIO.read(new File("sprite/block.png"));
+        } catch (IOException ex)
+        {
+            Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
