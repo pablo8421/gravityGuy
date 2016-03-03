@@ -219,7 +219,7 @@ public class VentanaJuego extends java.awt.Frame {
 
             } catch (IOException ex)
             {
-                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -230,7 +230,7 @@ public class VentanaJuego extends java.awt.Frame {
             block = ImageIO.read(new File("sprite/block.png"));
         } catch (IOException ex)
         {
-            Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -252,7 +252,7 @@ public class VentanaJuego extends java.awt.Frame {
                     waitLabel.setText("Waiting...");
                 } catch (IOException ex)
                 {
-                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 return;
             }
@@ -265,7 +265,7 @@ public class VentanaJuego extends java.awt.Frame {
                     out.writeBytes("GC " + gDown + CRLF);
                 } catch (IOException ex)
                 {
-                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -304,7 +304,7 @@ public class VentanaJuego extends java.awt.Frame {
                     while(!juego.in.ready()){}
                 } catch (IOException ex)
                 {
-                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 juego.repaint();
             }
@@ -367,7 +367,7 @@ public class VentanaJuego extends java.awt.Frame {
                     }
                 } catch (Exception ex)
                 {
-                    Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
             }

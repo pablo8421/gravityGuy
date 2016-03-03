@@ -57,7 +57,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex)
         {
-            Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
         }
                 
         initComponents();
@@ -104,7 +104,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
         } catch (UnknownHostException ex)
         {
             addressLabel.setText("No idea");
-            Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         sockets = new Socket[userQuantity];
@@ -242,7 +242,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                 welcomeSocket.close();
             } catch (IOException | InterruptedException ex)
             {
-                Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -255,7 +255,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                     out[i].writeBytes(message + CRLF);
                 } catch (IOException ex)
                 {
-                    Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             
@@ -290,7 +290,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                     }
                 } catch (IOException ex)
                 {
-                    Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -336,7 +336,7 @@ public class GGServer extends javax.swing.JFrame implements Runnable {
                     Thread.sleep(25);
                 } catch (Exception ex)
                 {
-                    Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
+                    //Logger.getLogger(GGServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             serialized = gs.serializeState();
