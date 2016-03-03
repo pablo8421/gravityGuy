@@ -255,18 +255,40 @@ public class VentanaJuego extends java.awt.Frame {
                         if (rValue.startsWith("3"))
                         {
                             //draw 3
+                            try
+                            {
+                                out.writeBytes("REQUEST GAME" + CRLF);
+                            } catch (IOException ex)
+                            {
+                                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             System.out.println("3");
                         } else if (rValue.startsWith("2"))
                         {
                             //draw 2
+                            try
+                            {
+                                out.writeBytes("REQUEST GAME" + CRLF);
+                            } catch (IOException ex)
+                            {
+                                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             System.out.println("2");
                         } else if (rValue.startsWith("1"))
                         {
                             //draw 1
+                            try
+                            {
+                                out.writeBytes("REQUEST GAME" + CRLF);
+                            } catch (IOException ex)
+                            {
+                                Logger.getLogger(VentanaJuego.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             System.out.println("1");
                         } else if (rValue.startsWith("0"))
                         {
                             vj.noGame = false;
+
                             vj.gState = new GameState();
                             vj.thread.start();
                             vj.thread2.start();
