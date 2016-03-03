@@ -267,11 +267,11 @@ public class VentanaJuego extends java.awt.Frame {
                         } else if (rValue.equals("0"))
                         {
                             vj.noGame = false;
-
                             vj.gState = new GameState();
                             vj.thread.start();
                             vj.thread2.start();
                         }
+                        System.out.println(rValue);
                     }
                 } catch (IOException ex)
                 {
