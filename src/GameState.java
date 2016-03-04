@@ -105,7 +105,7 @@ public class GameState {
         //Corriendo la parte de arriba del mundo
         for (int i = 0; i < cuadradosTop.size(); i++)
         {
-            cuadradosTop.get(i).x0 -= 10;
+            cuadradosTop.get(i).x0 -= 8;
         }
 
         //Eliminando los cuadros de la parte de arriba del juego cuando ya no se ven
@@ -129,8 +129,7 @@ public class GameState {
         //Corriendo la parte del mid del mundo
         for (int i = 0; i < cuadradosMid.size(); i++)
         {
-            System.out.println("("+ i + "," + cuadradosMid.get(i).x0 +")");
-            cuadradosMid.get(i).x0 -= 10;
+            cuadradosMid.get(i).x0 -= 2;
         }
 
         //Eliminando los cuadros de la parte del mid del juego cuando ya no se ven
@@ -138,7 +137,7 @@ public class GameState {
         {
             cuadradosMid.remove(0);
         }
-        if ((cuadradosMid.get(cuadradosMid.size() - 1).x0 + cuadradosMid.get(cuadradosMid.size() - 1).width) <= width)
+        if (cuadradosMid.size() > 0 && (cuadradosMid.get(cuadradosMid.size() - 1).x0 + cuadradosMid.get(cuadradosMid.size() - 1).width) <= width)
         {
             if(Math.random()<=0.10){
                 randomx = (int) (Math.random() * (80)) + 60;
@@ -152,7 +151,7 @@ public class GameState {
         //PARA ABAJO
         for (int i = 0; i < cuadradosBot.size(); i++)
         {
-            cuadradosBot.get(i).x0 -= 10;
+            cuadradosBot.get(i).x0 -= 8;
         }
         if ((cuadradosBot.get(0).x0 + cuadradosBot.get(0).width) <= 0)
         {
