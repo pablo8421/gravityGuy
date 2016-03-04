@@ -189,7 +189,6 @@ public class VentanaJuego extends java.awt.Frame {
             catch(Exception e){}
             
             g.drawImage(offScreen, 0, 0, this);
-
             
             if(waitLabel.isVisible())
             {

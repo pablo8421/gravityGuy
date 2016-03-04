@@ -23,7 +23,7 @@ public class GameState {
 
     public final static String CRLF = "\r\n";
     
-    int width, height;
+    final int width, height;
 
     public GameState()
     {
@@ -77,17 +77,14 @@ public class GameState {
             cuadradosBot.add(cuadrado);
             xAnterior = xAnterior + randomx;
         }
-        x = width - 60;
-        while (x < width)
-        {
-            randomx = (int) (Math.random() * (80)) + 60;
-            randomy = (int) (Math.random() * (200)) + 190;
-            int randomHeight = (int) (Math.random() * (40)) + 10;
-            x = xAnterior;
-            cuadrado = new Cuadrado(x, randomy, randomx, randomHeight);
-            cuadradosMid.add(cuadrado);
-            xAnterior = xAnterior + randomx;
-        }
+        x = width;
+
+        randomx = (int) (Math.random() * (80)) + 60;
+        randomy = (int) (Math.random() * (200)) + 190;
+        int randomHeight = (int) (Math.random() * (40)) + 10;
+        cuadrado = new Cuadrado(x, randomy, randomx, randomHeight);
+        cuadradosMid.add(cuadrado);
+
     }
 
     public void updateState()
@@ -132,6 +129,7 @@ public class GameState {
         //Corriendo la parte del mid del mundo
         for (int i = 0; i < cuadradosMid.size(); i++)
         {
+            System.out.println("("+ i + "," + cuadradosMid.get(i).x0 +")");
             cuadradosMid.get(i).x0 -= 10;
         }
 
@@ -142,11 +140,11 @@ public class GameState {
         }
         if ((cuadradosMid.get(cuadradosMid.size() - 1).x0 + cuadradosMid.get(cuadradosMid.size() - 1).width) <= width)
         {
-            randomx = (int) (Math.random() * (80)) + 60;
-            randomy = (int) (Math.random() * (200)) + 190;
-            int randomHeight = (int) (Math.random() * (40)) + 10;
-            cuadrado = new Cuadrado(width, randomy, randomx, randomHeight);
             if(Math.random()<=0.10){
+                randomx = (int) (Math.random() * (80)) + 60;
+                randomy = (int) (Math.random() * (200)) + 190;
+                int randomHeight = (int) (Math.random() * (40)) + 10;
+                cuadrado = new Cuadrado(639, randomy, randomx, randomHeight);            
                 cuadradosMid.add(cuadrado);
             }
             
